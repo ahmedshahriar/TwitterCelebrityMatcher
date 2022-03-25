@@ -3,7 +3,7 @@
 # User-specific stuff
 .DS_Store
 # Ignore Django Migrations in Development if you are working on team
-
+app
 # ignore static folder
 static
 # Only for Development only

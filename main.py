@@ -9,6 +9,7 @@ from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET,
 from core.dataprep import TwitterDataPrep
 from core.matcher import TwitterUserMatcher
 from core.scraper import TwitterScraper
+from core.utils import username_dict
 
 
 def tweepy_scraper(screen_names: list) -> None:
@@ -61,24 +62,44 @@ def main():
     # data_preparation()
 
     # Twitter profile matcher
-    # matcher = TwitterUserMatcher(EMBED_DATA_PATH)
+    matcher = TwitterUserMatcher(EMBED_DATA_PATH)
+
+    # Get the Twitter account names dictionary
+    usernames_dict = username_dict()
 
     """match users from celebrity dataset"""
     # match two random users
-    # print(matcher.match_random_user(random_state=43))
+    # usernames, similarity_score = matcher.match_single_user(random_state=43)
 
     # match one user by username with another random user
-    # print(matcher.match_random_user('Schwarzenegger', random_state=43))  # random_state=43 returns `Schwarzenegger` xD
+    # random_state=43 returns `Schwarzenegger` xD
+    # usernames, similarity_score = matcher.match_single_user('Schwarzenegger', random_state=43)
 
-    # match two users by their usernames
-    # print(matcher.match_random_user('Schwarzenegger', 'RobertDowneyJr', random_state=43))
+    # match two users by their twitter handlers
+    # usernames, similarity_score = matcher.match_single_user('Schwarzenegger', 'RobertDowneyJr', random_state=43)
 
     """match unknown users"""
     # match with an unknown user with another random user from the celebrity dataset
-    # print(matcher.match_random_user('ahmed__shahriar', random_state=43))
+    # usernames, similarity_score = matcher.match_single_user('ahmed__shahriar', random_state=43)
 
     # match with two unknown users
-    # print(matcher.match_users('ahmed__shahriar', 'Comicstorian', random_state=43))
+    # usernames, similarity_score = matcher.match_single_user('ahmed__shahriar', 'Comicstorian', random_state=43)
+
+    # print the results
+    # print(f"Similarity between {usernames[0]} and {usernames[1]} is: {similarity_score * 100:.2f}%")
+
+    """match top users for a single user"""
+    # match with a single user from celebrity dataset
+    # username = 'RobertDowneyJr'
+
+    # match with a single user excluding celebrity dataset
+    # username = 'ahmed__shahriar'
+
+    # top_n = 10
+    # top_results = matcher.match_top_users(username)
+
+    # for k, v in sorted(top_results, key=lambda item: item[1], reverse=True)[1:top_n+1]:
+    #     print(f"Twitter username: {k} ({usernames_dict.get(k)}): {v}")
 
 
 if __name__ == '__main__':

@@ -45,7 +45,8 @@ class TwitterScraper:
             # Create a dataframe from the list of tweets
             return pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
         except Exception as e:
-            logging.warning(e)
+            logging.error(e)
+            return e
 
     def save_tweets(self, screen_name: str) -> None:
         df = self.scrape_tweets(screen_name)
