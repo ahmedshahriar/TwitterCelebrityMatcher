@@ -4,6 +4,7 @@ import time
 
 import pandas as pd
 
+from app.app import App
 from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET,
                     ACCESS_KEY, EMBED_DATA_PATH, MODEL_PATH, TWITTER_USER_LIST_FILE)
 from core.dataprep import TwitterDataPrep
@@ -12,24 +13,21 @@ from core.scraper import TwitterScraper
 from core.utils import username_dict
 
 
-def tweepy_scraper(screen_names: list) -> None:
-    if not os.path.exists(os.path.join(os.getcwd(), DATA_PATH)):
-        os.mkdir(os.path.join(os.getcwd(), DATA_PATH))
-
-    # Create a TwitterScraper object for tweepy
-    twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET, access_key=ACCESS_KEY,
-                                     access_secret=ACCESS_SECRET, file_path=DATA_PATH)
-    for c, screen_name in enumerate(screen_names, 1):
-        twitter_scraper.save_tweets(screen_name)
-        logging.info(f"#{c} {screen_name} tweets scraped")
-        time.sleep(3)
-
-
 def fetch_users():
     # Get the Twitter account names
     handler_df = pd.read_csv(TWITTER_USER_LIST_FILE, header=0)
     screen_names = handler_df.twitter.unique().tolist()
     return screen_names
+
+
+def tweepy_scraper(twitter_scraper: TwitterScraper, screen_names: list) -> None:
+    if not os.path.exists(os.path.join(os.getcwd(), DATA_PATH)):
+        os.mkdir(os.path.join(os.getcwd(), DATA_PATH))
+
+    for c, screen_name in enumerate(screen_names, 1):
+        twitter_scraper.save_tweets(screen_name)
+        logging.info(f"#{c} {screen_name} tweets scraped")
+        time.sleep(3)
 
 
 def data_preparation():
@@ -52,20 +50,30 @@ def set_config():
 def main():
     set_config()
 
+    # Create a TwitterScraper object for tweepy
+    # twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY,
+    #                                  consumer_secret=CONSUMER_SECRET,
+    #                                  access_key=ACCESS_KEY,
+    #                                  access_secret=ACCESS_SECRET,
+    #                                  file_path=DATA_PATH)
+
+    # check the Twitter user
+    # twitter_scraper.check_user(screen_name='aaaaaaaaaaaaaaaaaaaaaaa')
+
     # fetch Twitter usernames
     # screen_names = fetch_users()
 
     # scrape tweets using tweepy
-    # tweepy_scraper(screen_names)
+    # tweepy_scraper(twitter_scraper, screen_names)
 
     # generate vector embeddings
     # data_preparation()
 
     # Twitter profile matcher
-    matcher = TwitterUserMatcher(EMBED_DATA_PATH)
+    # matcher = TwitterUserMatcher(EMBED_DATA_PATH)
 
     # Get the Twitter account names dictionary
-    usernames_dict = username_dict()
+    # usernames_dict = username_dict()
 
     """match users from celebrity dataset"""
     # match two random users
@@ -96,11 +104,12 @@ def main():
     # username = 'ahmed__shahriar'
 
     # top_n = 10
-    # top_results = matcher.match_top_users(username)
+    # top_results = matcher.match_top_users(username) # returns a zip object
 
     # for k, v in sorted(top_results, key=lambda item: item[1], reverse=True)[1:top_n+1]:
     #     print(f"Twitter username: {k} ({usernames_dict.get(k)}): {v}")
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    App().render()

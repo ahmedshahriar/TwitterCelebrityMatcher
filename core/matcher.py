@@ -10,9 +10,18 @@ from core import utils
 
 class TwitterUserMatcher:
     def __init__(self, embed_data_path: str) -> None:
+        """
+        :param embed_data_path: celebrity user embedding data path
+        """
         self.embed_data = pd.read_csv(os.path.join(os.getcwd(), embed_data_path, embed_data_path + '.csv'))
 
     def match_single_user(self, *args, random_state=None) -> tuple:
+        """
+        returns users with the cosine similarity score
+        :param args: twitter usernames Optional
+        :param random_state:
+        :return:
+        """
         try:
             if len(args) == 0:
                 random_users_df = self.embed_data.sample(n=2, random_state=random_state)
@@ -43,6 +52,11 @@ class TwitterUserMatcher:
             logging.error(e)
 
     def match_top_users(self, username) -> zip:
+        """
+        returns a list of the top users with the highest cosine similarity score to the given user
+        :param username:
+        :return:
+        """
         if username in self.embed_data.username.values:
             user_df = self.embed_data[self.embed_data.username == username]
         else:
