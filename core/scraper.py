@@ -36,6 +36,7 @@ class TwitterScraper:
         :return:
         """
         try:
+            # NB : pass keyword argument `screen_name` to get_user()
             self.api.get_user(screen_name=screen_name)
             return True
         except Exception as e:

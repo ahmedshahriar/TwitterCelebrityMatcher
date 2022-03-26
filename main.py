@@ -13,7 +13,7 @@ from core.scraper import TwitterScraper
 from core.utils import username_dict
 
 
-def fetch_users():
+def fetch_users() -> list:
     # Get the Twitter account names
     handler_df = pd.read_csv(TWITTER_USER_LIST_FILE, header=0)
     screen_names = handler_df.twitter.unique().tolist()
@@ -30,14 +30,14 @@ def tweepy_scraper(twitter_scraper: TwitterScraper, screen_names: list) -> None:
         time.sleep(3)
 
 
-def data_preparation():
+def data_preparation() -> None:
     if not os.path.exists(os.path.join(os.getcwd(), EMBED_DATA_PATH)):
         os.mkdir(os.path.join(os.getcwd(), EMBED_DATA_PATH))
     twitter_data_prep = TwitterDataPrep(model_path=MODEL_PATH, data_path=DATA_PATH, embed_data_path=EMBED_DATA_PATH)
     twitter_data_prep.load_data()
 
 
-def set_config():
+def set_config() -> None:
     logging.basicConfig(encoding='utf-8',
                         level=logging.INFO,
                         format="%(asctime)s [%(levelname)s] %(message)s",
@@ -58,7 +58,7 @@ def main():
     #                                  file_path=DATA_PATH)
 
     # check the Twitter user
-    # twitter_scraper.check_user(screen_name='aaaaaaaaaaaaaaaaaaaaaaa')
+    # twitter_scraper.check_user(screen_name='aaaaaaaaaaaaaaaaaaaaaaa') # check invalid user
 
     # fetch Twitter usernames
     # screen_names = fetch_users()
