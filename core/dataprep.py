@@ -54,7 +54,7 @@ class TwitterDataPrep:
         pat8 = r'www\S+'  # remove link www
         combined_pat = r'|'.join((pat1, pat2, pat3, pat4, pat5, pat7, pat8))  # combine all patterns
         text = re.sub(combined_pat, "", text)  # .lower()
-        text = re.sub('\s+', ' ', text)  # remove extra spaces
+        text = re.sub(r'\s+', ' ', text)  # remove extra spaces
         return text.strip()
 
     def _parse_bytes(self, field: str) -> str:
