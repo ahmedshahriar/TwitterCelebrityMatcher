@@ -58,7 +58,7 @@ def main():
     #                                  file_path=DATA_PATH)
 
     # check the Twitter user
-    # twitter_scraper.check_user(screen_name='aaaaaaaaaaaaaaaaaaaaaaa') # check invalid user
+    # twitter_scraper.check_user(screen_name='aaaaaaaaaaaaaaa') # check invalid user
 
     # fetch Twitter usernames
     # screen_names = fetch_users()

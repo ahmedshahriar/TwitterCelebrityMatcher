@@ -93,20 +93,36 @@ class AppHome:
                 st.session_state.username = st.text_input("Username")
             return st.form_submit_button("Search")
 
-    def render_search_results(self):
+    def render_top_search_results(self):
+        # set the max results to 100
         top_n = 100
-        username = st.session_state.username
-        with st.spinner("Searching for " + username):
-            is_exists = self.twitter_scraper.check_user(username)
-        if not is_exists:
-            return st.markdown("This twitter user does not exist or some error occurred!")
-        with st.spinner("Found user, searching for matches..."):
+        username = st.session_state.username.strip()
+        if len(username) == 0:
+            return st.warning("The username can not be empty!")
+        else:
+            # check for username
+            with st.spinner("Searching for " + username):
+                is_exists = self.twitter_scraper.check_user(username)
+            if not is_exists:
+                return st.error("This twitter user does not exist or some error occurred!")
+
+        # get the top n results
+        with st.spinner("**Twitter User Found**! searching for matches..."):
             closest_list = self.twitter_user_matcher.match_top_users(username)
+        if not closest_list:
+            return st.error("An error occurred!")
+
         results = sorted(closest_list, key=lambda item: item[1], reverse=True)[1:top_n + 1]
         result_df = pd.DataFrame(results, columns=['Twitter Username', 'Similarity Score'])
+
+        # show the Celebrity Names
         result_df.insert(1, 'Name', result_df['Twitter Username'].map(lambda x: self.usernames_dict.get(x)))
-        # result_df['Similarity Score'] = result_df['Similarity Score'].map(lambda x: round(x, 4))
-        result_df['link'] = result_df['Twitter Username'].map(lambda x: 'https://twitter.com/' + x)
+        # result_df['Similarity Score'] = result_df['Similarity Score'].map(lambda x: round(x, 4)) # no need
+
+        # display the Twitter profile link
+        result_df['Twitter link'] = result_df['Twitter Username'].map(lambda x: 'https://twitter.com/' + x)
+
+        # display the top n results
         st.markdown("### Top " + str(top_n) + " most similar celebrities for '" + username + "'" + (
             f" ({n})" if (n := self.usernames_dict.get(username)) else '') + ":")
 
@@ -123,7 +139,8 @@ class AppHome:
 
         submitted = self.render_search_form()
         if submitted:
-            self.render_search_results()
+            self.render_top_search_results()
+
 
 
 class App:

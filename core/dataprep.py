@@ -13,6 +13,8 @@ import pandas as pd
 
 from pathlib import Path
 from typing import Optional
+
+import torch
 from sentence_transformers import SentenceTransformer
 
 
@@ -28,11 +30,18 @@ class TwitterDataPrep:
         self.data_path = data_path
         self.embed_data_path = embed_data_path
         self.error_list = []
+
         # download and save the model
         # https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
         # model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
         # model.save(model_path)
-        self.model = SentenceTransformer(model_path, device='cuda')  # remove cuda if not available
+        if model_path and len(os.listdir(model_path)) != 0:
+            self.model = SentenceTransformer(model_path)
+        else:
+            self.model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+        if torch.cuda.is_available():
+            self.model = self.model.to(torch.device("cuda"))
+        # self.model = SentenceTransformer(model_path, device='cuda')  # remove cuda if not available
         emoticon_data_folder = Path("utilities/")
         emoticon_file_path = emoticon_data_folder / "emoticon_dict.json"
         with open(emoticon_file_path) as f:

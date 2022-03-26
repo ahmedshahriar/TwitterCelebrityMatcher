@@ -57,16 +57,19 @@ class TwitterUserMatcher:
         :param username:
         :return:
         """
-        if username in self.embed_data.username.values:
-            user_df = self.embed_data[self.embed_data.username == username]
-        else:
-            user_df = utils.scrape_embed_tweets(username)
+        try:
+            if username in self.embed_data.username.values:
+                user_df = self.embed_data[self.embed_data.username == username]
+            else:
+                user_df = utils.scrape_embed_tweets(username)
 
-        # handle RuntimeError: expected scalar type Double but found Float
-        # https://github.com/pytorch/pytorch/issues/2138
-        cos_sim_results = np.squeeze(
-            util.cos_sim(user_df.iloc[:, 1:].values.astype(np.float32),
-                         self.embed_data.iloc[:, 1:].values.astype(np.float32)).numpy())
+            # handle RuntimeError: expected scalar type Double but found Float
+            # https://github.com/pytorch/pytorch/issues/2138
+            cos_sim_results = np.squeeze(
+                util.cos_sim(user_df.iloc[:, 1:].values.astype(np.float32),
+                             self.embed_data.iloc[:, 1:].values.astype(np.float32)).numpy())
 
-        top_user_dict = zip(self.embed_data.iloc[:, 0], cos_sim_results)
-        return top_user_dict
+            top_user_dict = zip(self.embed_data.iloc[:, 0], cos_sim_results)
+            return top_user_dict
+        except Exception as e:
+            logging.error(e)
