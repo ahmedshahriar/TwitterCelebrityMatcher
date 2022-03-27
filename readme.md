@@ -2,7 +2,7 @@
 The objective of this project is to match celebrity users with their respective tweets.
 
 This app finds similar Twitter users based on their tweets. It works in two ways -
-1. Get a list of most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (over 900\
+1. Get a list of most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (917\
  Twitter celebrity accounts). 
 2. Find similarity between two Twitter users based on their tweets. 
 
@@ -18,6 +18,13 @@ CONSUMER_SECRET=YOUR_CONSUMER_SECRET
 Setup a virtual environment and run:
 ```
 $ pip install -r requirements.txt
+```
+### Streamlit App
+
+The app file is located at `app/app.py`.
+
+```
+$ streamlit run main.py
 ```
 ## How it works?
 The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
@@ -39,17 +46,19 @@ This app -
 
 ## Dataset
 
-### Celebrity Twitter Accounts
+### List of Celebrity Twitter Accounts
 Open Source GitHub Gist - 
 [Top-1000-Celebrity-Twitter-Accounts.csv](https://gist.github.com/mbejda/9c3353780270e7298763)
 
-NB: There are some duplicates in the dataset. (986 after filtering)
+NB: 
+- There are some duplicates in the dataset. (986 after filtering)
+- There are some unofficial Celebrity accounts (ex - [twitter.com/sonunigam](https://twitter.com/sonunigam)) with very small amount of tweets. Here is a good research paper on this topic - [25 Tweets to Know You: A New Model to Predict Personality with Social Media](https://arxiv.org/abs/1704.05513) 
 
 ### Data Preprocessing
 Current pipeline : 
- - removed hashtags, urls, and mentions 
- - replaced emoticons with their textual representation ([`ekphrasis`](https://github.com/cbaziotis/ekphrasis))
- - replaced emoji with their textual representation ([`demoji`](https://pypi.org/project/demoji) package)
+ - Removed hashtags, urls, and mentions 
+ - Replaced emoticons with their textual representation ([`ekphrasis`](https://github.com/cbaziotis/ekphrasis))
+ - Replaced emoji with their textual representation ([`demoji`](https://pypi.org/project/demoji) package)
  
 ## Model
 - [sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)
@@ -73,9 +82,15 @@ Current pipeline :
 
 Word embedding dimension : 384
 
-## Project Details
-- Took ~6s to encode each user's tweets (max ~3200 tweets per user) with CUDA (GPU: 1050ti)
-- Took ~2h 5m in total to preprocess and encode all users' (917) tweets
+## FYI
+- With CUDA enabled GPU the app runs ~5x faster than CPU.
+                
+For ~3200 tweets - 
+  - With the current scraping scripts, it takes ~14-16 seconds to download tweets
+  - With `pandas` it takes ~8 seconds to **preprocess** the tweets (AMD 2600x)
+  - It takes ~6 seconds to **generate embeddings** from processed tweets (1050ti, 768 CUDA cores)
+  - Took **~2h 5m** in total to preprocess and encode all users' (917) tweets
+
 ## Built With
 ```
 demoji==1.1.0

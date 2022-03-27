@@ -231,8 +231,9 @@ class AppHome:
                 
                 For ~3200 tweets - 
                 - With the current scraping scripts, it takes ~14-16 seconds to download tweets
-                - With pandas it takes ~8 seconds to preprocess the tweets (AMD 2600x)
+                - With `pandas` it takes ~8 seconds to preprocess the tweets (AMD 2600x)
                 - It takes ~6 seconds to generate embeddings from processed tweets (1050ti, 768 CUDA cores)
+                - Took ~2h 5m in total to preprocess and encode all users' (917) tweets
                 
                 ---
                 
