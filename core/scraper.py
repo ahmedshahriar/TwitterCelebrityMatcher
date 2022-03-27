@@ -16,9 +16,9 @@ import tweepy
 
 
 class TwitterScraper:
-    def __init__(self, consumer_key: str,
-                 consumer_secret: str,
-                 access_key: str, access_secret: str,
+    def __init__(self, consumer_key: Optional[str],
+                 consumer_secret: Optional[str],
+                 access_key: Optional[str], access_secret: Optional[str],
                  file_path: Optional[str] = None) -> None:
         """
         Initialize the scraper
@@ -38,6 +38,18 @@ class TwitterScraper:
         auth.set_access_token(self.access_key, self.access_secret)
         self.api = tweepy.API(auth)
 
+    def verify_tweepy_api(self) -> bool:
+        """
+        Verify if the tweepy api is working
+        :return:
+        """
+        try:
+            self.api.verify_credentials()
+            return True
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            return False
+
     def check_user(self, screen_name: str) -> bool:
         """
         Check if a user exists
@@ -49,7 +61,7 @@ class TwitterScraper:
             self.api.get_user(screen_name=screen_name)
             return True
         except Exception as e:
-            logging.error(e)
+            logging.error(e, exc_info=True)
             return False
 
     def scrape_tweets(self, screen_name: str) -> Optional[pd.DataFrame]:
@@ -82,10 +94,14 @@ class TwitterScraper:
 
             out_tweets = [[tweet.id_str, tweet.created_at, tweet.full_text.encode("utf-8")] for tweet in alltweets]
             # Create a dataframe from the list of tweets
-            return pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
+            df = pd.DataFrame(out_tweets, columns=["id", "created_at", "text"])
+
         except Exception as e:
-            logging.error(e)
+            logging.error(e, exc_info=True)
             return e
+        else:
+            logging.info('\n\nfinished...')
+            return df
 
     def save_tweets(self, screen_name: str) -> None:
         """
@@ -95,4 +111,5 @@ class TwitterScraper:
         """
         df = self.scrape_tweets(screen_name)
         # Save the dataframe to a csv file
-        df.to_csv(os.path.join(self.file_path, "%s.csv" % screen_name), index=False)
+        if df:
+            df.to_csv(os.path.join(self.file_path, "%s.csv" % screen_name), index=False)

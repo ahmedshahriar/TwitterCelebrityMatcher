@@ -9,6 +9,7 @@ Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
 import logging
 import random
 from dataclasses import dataclass
+from typing import Optional
 
 import pandas as pd
 import streamlit as st
@@ -23,10 +24,10 @@ from core.utils import username_dict
 # great intro https://youtu.be/vBH6GRJ1REM
 @dataclass
 class AppData:
-    consumer_key: str = CONSUMER_KEY
-    consumer_secret: str = CONSUMER_SECRET
-    access_key: str = ACCESS_KEY
-    access_secret: str = ACCESS_SECRET
+    consumer_key: Optional[str] = CONSUMER_KEY
+    consumer_secret: Optional[str] = CONSUMER_SECRET
+    access_key: Optional[str] = ACCESS_KEY
+    access_secret: Optional[str] = ACCESS_SECRET
     embed_data_path: str = EMBED_DATA_PATH
     usernames_dict = username_dict()
 
@@ -87,7 +88,7 @@ class AppHome:
                 if st.button(user):
                     st.session_state.username = user
 
-    def render_search_form(self) -> str:
+    def render_search_form(self) -> bool:
         st.markdown("Or Enter a username:")
         with st.form("search_form"):
             if st.session_state.get('username'):
@@ -198,6 +199,7 @@ class AppHome:
          Twitter celebrity accounts). 
         2. Find similarity between two Twitter users based on their tweets. 
         """)
+
         with st.expander("Click to see how this app works"):
             st.markdown("""
                 #### Functionalities

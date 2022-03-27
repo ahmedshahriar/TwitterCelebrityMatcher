@@ -1,13 +1,14 @@
 import os
+from typing import Optional
 
 from dotenv import load_dotenv
 
 load_dotenv()
 
-ACCESS_KEY = os.environ.get("ACCESS_KEY")
-ACCESS_SECRET = os.environ.get("ACCESS_SECRET")
-CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
-CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
+ACCESS_KEY: Optional[str] = os.environ.get("ACCESS_KEY")
+ACCESS_SECRET: Optional[str] = os.environ.get("ACCESS_SECRET")
+CONSUMER_KEY: Optional[str] = os.environ.get("CONSUMER_KEY")
+CONSUMER_SECRET: Optional[str] = os.environ.get("CONSUMER_SECRET")
 
 # folder path
 DATA_PATH = 'twitter-data'  # path to save tweets for each user

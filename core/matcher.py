@@ -9,6 +9,7 @@ Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
 
 import logging
 import os
+from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -24,7 +25,7 @@ class TwitterUserMatcher:
         """
         self.embed_data = pd.read_csv(os.path.join(os.getcwd(), embed_data_path, embed_data_path + '.csv'))
 
-    def match_twitter_user(self, *args, random_state=None) -> tuple:
+    def match_twitter_user(self, *args, random_state=None) -> Optional[tuple]:
         """
         returns users with the cosine similarity score
         :param args: twitter usernames Optional

@@ -15,7 +15,7 @@ import re
 import sys
 from operator import itemgetter
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 import demoji
 import numpy as np
@@ -35,7 +35,7 @@ class TwitterDataPrep:
         self.model_path = model_path
         self.data_path = data_path
         self.embed_data_path = embed_data_path
-        self.error_list = []
+        self.error_list: list[Optional[str]] = []
 
         # download and save the model
         # https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
@@ -72,7 +72,7 @@ class TwitterDataPrep:
         text = re.sub(r'\s+', ' ', text)  # remove extra spaces
         return text.strip()
 
-    def _parse_bytes(self, field: str) -> str:
+    def _parse_bytes(self, field: Union[str, bytes]) -> str:
         """ Convert string represented in Python byte-string literal syntax into a
         decoded character string. Other field types returned unchanged.
         :param field:
@@ -85,7 +85,7 @@ class TwitterDataPrep:
         finally:
             return result.decode() if isinstance(result, bytes) else field
 
-    def replace_emoticons(self, text: str) -> str:
+    def replace_emoticons(self, text) -> str:
         """
         Replace emoticons in the text with their corresponding word.
         :param text:
@@ -168,7 +168,7 @@ class TwitterDataPrep:
         logging.info(f"Loading data from the folder...{self.data_path}")
         count = 1
         # check file in subdirectory
-        for root, dirs, files in os.walk(os.path.join(os.getcwd(), self.data_path)):
+        for root, dirs, files in os.walk(os.path.join(os.getcwd(), self.data_path)):  # type: ignore[type-var]
             dirs.sort(key=str)
             files.sort(key=str)
             for file in files:
@@ -197,11 +197,11 @@ class TwitterDataPrep:
                         # file names which contains exceptions
                         self.error_list.append(file)
                         logging.info(f"Unexpected error: {sys.exc_info()[0]}")
-                        self.error_list.append(sys.exc_info()[0])
+                        self.error_list.append(str(sys.exc_info()[0]))
 
         # dump the data to a csv file
         df_embeddings.to_csv(os.path.join(os.getcwd(), self.embed_data_path, "%s.csv" % self.embed_data_path),
                              index=False)
         logging.warning(f"Error list: {self.error_list}")
         logging.info(
-            f"Data saved to {os.path.join(os.getcwd(), self.embed_data_path, '%s.csv' % self.embed_data_path)}")
+            f"Data saved to {os.path.join(os.getcwd(), self.embed_data_path, '%s.csv' % self.embed_data_path)}")  # type: ignore[type-var]

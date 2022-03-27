@@ -1,4 +1,10 @@
-The objective of this project is to match celebrity users with their respective tweets
+# Twitter Celebrity Matcher
+The objective of this project is to match celebrity users with their respective tweets.
+
+This app finds similar Twitter users based on their tweets. It works in two ways -
+1. Get a list of most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (over 900\
+ Twitter celebrity accounts). 
+2. Find similarity between two Twitter users based on their tweets. 
 
 ## Setup
 
@@ -11,8 +17,26 @@ CONSUMER_SECRET=YOUR_CONSUMER_SECRET
 ```
 Setup a virtual environment and run:
 ```
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
+#### How it works?
+The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
+After preprocessing the tweets, the tweets were embedded using 
+[sentence-transformers](https://www.sbert.net/) model -
+[paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
+The similarity score between tweets embeddings is calculated using 
+[cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity).
+   
+This app - 
+1. Takes a Twitter username
+2. Scrapes the tweets if it's unavailable
+3. Generate embeddings of the given Twitter account's tweets
+4. Calculate the mean embedding of the tweets (limitation ~3200 tweets)
+5. Finds the **cosine similarity** between 
+    - Given user's tweets embeddings and celebrity tweets embeddings
+    - Given two user's tweets embeddings
+6. Returns the most similar celebrity Twitter accounts based on similarity score or just score between two users 
+
 ## Dataset
 
 ### Celebrity Twitter Accounts
@@ -22,7 +46,7 @@ Open Source GitHub Gist -
 NB: There are some duplicates in the dataset. (986 after filtering)
 
 ### Data Preprocessing
-Filter : 
+Current pipeline : 
  - removed hashtags, urls, and mentions 
  - replaced emoticons with their textual representation ([`ekphrasis`](https://github.com/cbaziotis/ekphrasis))
  - replaced emoji with their textual representation ([`demoji`](https://pypi.org/project/demoji) package)
