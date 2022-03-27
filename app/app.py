@@ -33,14 +33,14 @@ class AppData:
 
 class AppInit:
 
-    def __init__(self, data: AppData):
+    def __init__(self, data: AppData) -> None:
         self.data = data
 
-    def init_twitter_scraper(self):
+    def init_twitter_scraper(self) -> TwitterScraper:
         return TwitterScraper(consumer_key=self.data.consumer_key, consumer_secret=self.data.consumer_secret,
                               access_key=self.data.access_key, access_secret=self.data.access_secret)
 
-    def init_twitter_user_matcher(self):
+    def init_twitter_user_matcher(self) -> TwitterUserMatcher:
         return TwitterUserMatcher(embed_data_path=self.data.embed_data_path)
 
 
@@ -48,35 +48,35 @@ class AppHome:
     # set the max results to 100
     top_n = 100
 
-    def __init__(self, app):
+    def __init__(self, app) -> None:
         self.app = app
 
     @property
-    def usernames_dict(self):
+    def usernames_dict(self) -> dict:
         return self.app.data.usernames_dict
 
     @property
-    def twitter_scraper(self):
+    def twitter_scraper(self) -> TwitterScraper:
         return self.app.init.init_twitter_scraper()
 
     @property
-    def twitter_user_matcher(self):
+    def twitter_user_matcher(self) -> TwitterUserMatcher:
         return self.app.init.init_twitter_user_matcher()
 
     @property
-    def random_suggested_usernames(self):
+    def random_suggested_usernames(self) -> list:
         random.seed(15)  # will return ['gusttavo_lima' 'selenagomez' 'officialtulisa' 'drdre' 'Eminem']
         return random.sample(self.usernames_dict.keys(), 5)
 
-    def capture_change_value(self):
+    def capture_change_value(self) -> None:
         st.session_state.username = st.session_state.get('selected_username')
 
-    def render_select_random_celebrity(self):
+    def render_select_random_celebrity(self) -> None:
         # helpful link - https://github.com/streamlit/streamlit/issues/3601
         st.selectbox("Select a celebrity (twitter username) :", self.usernames_dict.keys(),
                      key='selected_username', on_change=self.capture_change_value)
 
-    def render_suggested_users(self):
+    def render_suggested_users(self) -> None:
         st.markdown("Or Try one of these users:")
         random_celebrity_usernames = ['taylorswift13', 'Cristiano', 'BillGates',
                                       'coldplay', 'iamsrk', 'johngreen']
@@ -87,7 +87,7 @@ class AppHome:
                 if st.button(user):
                     st.session_state.username = user
 
-    def render_search_form(self):
+    def render_search_form(self) -> str:
         st.markdown("Or Enter a username:")
         with st.form("search_form"):
             if st.session_state.get('username'):
@@ -96,7 +96,7 @@ class AppHome:
                 st.session_state.username = st.text_input("Username")
             return st.form_submit_button("Search")
 
-    def render_top_search_results(self):
+    def render_top_search_results(self) -> None:
         username = st.session_state.username.strip()
         if len(username) == 0:
             return st.warning("The username can not be empty!")
@@ -138,7 +138,7 @@ class AppHome:
             # st.dataframe(result_df.style.set_precision(4)) # deprecated
             st.dataframe(result_df.style.format({'Similarity Score': '{:.4f}'}))
 
-    def match_two_celeb_users(self):
+    def match_two_celeb_users(self) -> None:
         st.markdown("#### Match Two Celebrities From The Celebrity Account List")
         celeb_usernames = st.multiselect("Select Two Celebrity (twitter username) :",
                                          self.usernames_dict.keys(),
@@ -163,7 +163,7 @@ class AppHome:
                     f"and **[{celeb_usernames[1]}](https://twitter.com/{celeb_usernames[1]})** is: "
                     f"**{similarity_score:.4f}**")
 
-    def match_two_users(self):
+    def match_two_users(self) -> None:
         st.markdown("#### Match Two Twitter Users")
         user1 = st.text_input('Select Twitter User1', 'BarackObama').strip()
         user2 = st.text_input('Select Twitter User2', 'BorisJohnson').strip()
@@ -190,18 +190,20 @@ class AppHome:
                         f"and **[{user2}](https://twitter.com/{user2})** is: "
                         f"**{similarity_score:.4f}**")
 
-    def render_overview(self):
+    def render_overview(self) -> None:
         st.markdown("""
         #### Overview 
         This app finds similar Twitter users based on their tweets. It works in two ways 
-        1. Get a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (over 900 Twitter celebrity accounts). 
+        1. Get a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (over 900\
+         Twitter celebrity accounts). 
         2. Find similarity between two Twitter users based on their tweets. 
         """)
         with st.expander("Click to see how this app works"):
             st.markdown("""
                 #### Functionalities
                 - Enter a Twitter username (from the list) to see the most similar celebrities based on tweets. 
-                The celebrities list was collected from the GitHub Gist  - [Top-1000-Celebrity-Twitter-Accounts.csv](https://gist.github.com/mbejda/9c3353780270e7298763). 
+                The celebrities list was collected from the GitHub Gist - 
+                [Top-1000-Celebrity-Twitter-Accounts.csv](https://gist.github.com/mbejda/9c3353780270e7298763). 
                 - You can also enter two Twitter usernames to see the similarity score between them.
                 
                 #### How it works?
@@ -209,7 +211,8 @@ class AppHome:
                 After preprocessing the tweets, the tweets were embedded using 
                 [sentence-transformers](https://www.sbert.net/) model -
                 [paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
-                The similarity score between tweets embeddings is calculated using [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+                The similarity score between tweets embeddings is calculated using 
+                [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity).
                 
                 This app - 
                 1. Takes a Twitter username
@@ -234,7 +237,7 @@ class AppHome:
                 N.B: With the free version of Twitter API, it limits the user to the last 3200 tweets in a timeline
                 """)
 
-    def render(self):
+    def render(self) -> None:
         self.render_overview()
         st.subheader("Most Similar Twitter Celebrities")
         self.render_select_random_celebrity()
@@ -257,11 +260,11 @@ class App:
     author = "Ahmed Shahriar Sakib"
     version = "1.0.0"
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.data = AppData()
         self.init = AppInit(self.data)
 
-    def set_config(self):
+    def set_config(self) -> None:
         st.set_page_config(
             page_title=self.title,
             menu_items={

@@ -47,7 +47,7 @@ def set_config() -> None:
                         ])
 
 
-def main():
+def main() -> None:
 
     # Create a TwitterScraper object for tweepy
     twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY,

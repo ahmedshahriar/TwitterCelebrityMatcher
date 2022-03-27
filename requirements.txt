@@ -1,0 +1,7 @@
+demoji==1.1.0
+ekphrasis==0.5.1
+python-dotenv==0.19.2
+schedule==1.1.0
+sentence-transformers==2.2.0
+streamlit==1.7.0
+tweepy==4.7.0
