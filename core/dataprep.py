@@ -1,19 +1,25 @@
+"""
+## Twitter Celebrity Matcher
+
+This app is a tool to match celebrities from Twitter with their respective tweets.
+
+Author: [Ahmed Shahriar Sakib](https://www.linkedin.com/in/ahmedshahriar)
+Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
+"""
+
 import ast
 import json
+import logging
 import os
 import re
 import sys
-
-import logging
 from operator import itemgetter
+from pathlib import Path
+from typing import Optional
 
 import demoji
 import numpy as np
 import pandas as pd
-
-from pathlib import Path
-from typing import Optional
-
 import torch
 from sentence_transformers import SentenceTransformer
 

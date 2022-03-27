@@ -48,7 +48,6 @@ def set_config() -> None:
 
 
 def main():
-    set_config()
 
     # Create a TwitterScraper object for tweepy
     twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY,
@@ -111,5 +110,6 @@ def main():
 
 
 if __name__ == '__main__':
+    set_config()
     # main()
     App().render()  # run the streamlit app

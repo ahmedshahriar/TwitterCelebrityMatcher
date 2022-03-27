@@ -1,3 +1,11 @@
+"""
+## Twitter Celebrity Matcher
+
+This is a standalone script that scrapes tweets based on a given Twitter handle
+
+Author: [Ahmed Shahriar Sakib](https://www.linkedin.com/in/ahmedshahriar)
+Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
+"""
 import tweepy
 import pandas as pd
 import schedule

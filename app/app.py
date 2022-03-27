@@ -45,6 +45,8 @@ class AppInit:
 
 
 class AppHome:
+    # set the max results to 100
+    top_n = 100
 
     def __init__(self, app):
         self.app = app
@@ -95,8 +97,6 @@ class AppHome:
             return st.form_submit_button("Search")
 
     def render_top_search_results(self):
-        # set the max results to 100
-        top_n = 100
         username = st.session_state.username.strip()
         if len(username) == 0:
             return st.warning("The username can not be empty!")
@@ -117,7 +117,7 @@ class AppHome:
 
         # sort the list by the similarity score
         # [1:] to remove the first item which is the username itself
-        results = sorted(closest_list, key=lambda item: item[1], reverse=True)[1:top_n + 1]
+        results = sorted(closest_list, key=lambda item: item[1], reverse=True)[1:self.top_n + 1]
         result_df = pd.DataFrame(results, columns=['Twitter Username', 'Similarity Score'])
 
         # show the Celebrity Names
@@ -128,7 +128,8 @@ class AppHome:
         result_df['Twitter link'] = result_df['Twitter Username'].map(lambda x: 'https://twitter.com/' + x)
 
         # display the top n results
-        st.markdown(f"#### Top {top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' ({n if (n := self.usernames_dict.get(username)) else ''}):")
+        st.markdown(f"#### Top {self.top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' "
+                    f"({n if (n := self.usernames_dict.get(username)) else ''}):")
 
         # todo: display full text of the twitter link
         # more customization/ a possible option : https://github.com/PablocFonseca/streamlit-aggrid
@@ -138,7 +139,7 @@ class AppHome:
             st.dataframe(result_df.style.format({'Similarity Score': '{:.4f}'}))
 
     def match_two_celeb_users(self):
-        st.markdown("#### Match Two Celebrities From The List")
+        st.markdown("#### Match Two Celebrities From The Celebrity Account List")
         celeb_usernames = st.multiselect("Select Two Celebrity (twitter username) :",
                                          self.usernames_dict.keys(),
                                          key='celeb_usernames',
@@ -149,7 +150,8 @@ class AppHome:
             # get the similarity score
             with st.spinner("Calculating the similarity score..."):
                 try:
-                    _, similarity_score = self.twitter_user_matcher.match_twitter_user(celeb_usernames[0], celeb_usernames[1])
+                    _, similarity_score = self.twitter_user_matcher.match_twitter_user(celeb_usernames[0],
+                                                                                       celeb_usernames[1])
                 except Exception as e:
                     logging.info(e)
                     return st.error(f"An error occurred!")
@@ -157,8 +159,8 @@ class AppHome:
                 return st.error("An error occurred!")
             else:
                 st.success(
-                    f"The similarity score between [{celeb_usernames[0]}](https://twitter.com/{celeb_usernames[0]}) "
-                    f"and [{celeb_usernames[1]}](https://twitter.com/{celeb_usernames[1]}) is: "
+                    f"The similarity score between **[{celeb_usernames[0]}](https://twitter.com/{celeb_usernames[0]})** "
+                    f"and **[{celeb_usernames[1]}](https://twitter.com/{celeb_usernames[1]})** is: "
                     f"**{similarity_score:.4f}**")
 
     def match_two_users(self):
@@ -184,11 +186,56 @@ class AppHome:
                     return st.error("An error occurred!")
                 else:
                     st.success(
-                        f"The similarity score between [{user1}](https://twitter.com/{user1}) "
-                        f"and [{user2}](https://twitter.com/{user2}) is: "
+                        f"The similarity score between **[{user1}](https://twitter.com/{user1})** "
+                        f"and **[{user2}](https://twitter.com/{user2})** is: "
                         f"**{similarity_score:.4f}**")
 
+    def render_overview(self):
+        st.markdown("""
+        #### Overview 
+        This app finds similar Twitter users based on their tweets. It works in two ways 
+        1. Get a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (over 900 Twitter celebrity accounts). 
+        2. Find similarity between two Twitter users based on their tweets. 
+        """)
+        with st.expander("Click to see how this app works"):
+            st.markdown("""
+                #### Functionalities
+                - Enter a Twitter username (from the list) to see the most similar celebrities based on tweets. 
+                The celebrities list was collected from the GitHub Gist  - [Top-1000-Celebrity-Twitter-Accounts.csv](https://gist.github.com/mbejda/9c3353780270e7298763). 
+                - You can also enter two Twitter usernames to see the similarity score between them.
+                
+                #### How it works?
+                The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
+                After preprocessing the tweets, the tweets were embedded using 
+                [sentence-transformers](https://www.sbert.net/) model -
+                [paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
+                The similarity score between tweets embeddings is calculated using [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+                
+                This app - 
+                1. Takes a Twitter username
+                2. Scrapes the tweets if it's unavailable
+                3. Generate embeddings of the given Twitter account's tweets
+                5. Calculate the mean embedding of the tweets (limitation ~3200 tweets)
+                4. Finds the **cosine similarity** between 
+                    - Given user's tweets embeddings and celebrity tweets embeddings
+                    - Given two user's tweets embeddings
+                5. Returns the most similar celebrity twitter accounts based on similarity score or just score between two users 
+                
+                #### Performance
+                - With CUDA enabled GPU the app runs ~5x faster than CPU.
+                
+                For ~3200 tweets - 
+                - With the current scraping scripts, it takes ~14-16 seconds to download tweets
+                - With pandas it takes ~8 seconds to preprocess the tweets (AMD 2600x)
+                - It takes ~6 seconds to generate embeddings from processed tweets (1050ti, 768 CUDA cores)
+                
+                ---
+                
+                N.B: With the free version of Twitter API, it limits the user to the last 3200 tweets in a timeline
+                """)
+
     def render(self):
+        self.render_overview()
         st.subheader("Most Similar Twitter Celebrities")
         self.render_select_random_celebrity()
         self.render_suggested_users()
@@ -198,8 +245,9 @@ class AppHome:
             self.render_top_search_results()
 
         st.subheader("Match 1v1 Twitter Users")
+        # match 1v1 celebrity users
         self.match_two_celeb_users()
-
+        # match 1v1 random users
         self.match_two_users()
 
 
@@ -215,13 +263,13 @@ class App:
 
     def set_config(self):
         st.set_page_config(
-            page_title="Twitter Celebrity Matcher",
+            page_title=self.title,
             menu_items={
-                'About': "# This is a header. This is an *extremely* cool app!"
+                'About': self.description,
             }
         )
 
     def render(self):
         self.set_config()
-        st.header(self.title)
-        AppHome(self).render()
+        st.title(self.title)  # set the page title
+        AppHome(self).render()  # render the home page

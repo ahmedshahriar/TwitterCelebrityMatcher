@@ -1,3 +1,12 @@
+"""
+## Twitter Celebrity Matcher
+
+This app is a tool to match celebrities from Twitter with their respective tweets.
+
+Author: [Ahmed Shahriar Sakib](https://www.linkedin.com/in/ahmedshahriar)
+Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
+"""
+
 import logging
 import os
 from typing import Optional
@@ -54,6 +63,8 @@ class TwitterScraper:
             logging.info(screen_name)
             alltweets = []
             # Get the tweets
+            # use tweet_mode="extended" to get the entire untruncated text of the Tweet
+            # more here - https://docs.tweepy.org/en/stable/extended_tweets.html
             new_tweets = self.api.user_timeline(screen_name=screen_name,
                                                 count=200,
                                                 tweet_mode="extended")
@@ -64,7 +75,7 @@ class TwitterScraper:
                 new_tweets = self.api.user_timeline(screen_name=screen_name,
                                                     count=200,
                                                     max_id=oldest,
-                                                    tweet_mode="extended")  # to get full texts/ No ellipsis
+                                                    tweet_mode="extended")
                 alltweets.extend(new_tweets)
                 oldest = alltweets[-1].id - 1
                 logging.info("...%s tweets downloaded so far" % (len(alltweets)))
