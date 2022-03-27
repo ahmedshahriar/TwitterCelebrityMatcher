@@ -21,14 +21,14 @@ from core import utils
 class TwitterUserMatcher:
     def __init__(self, embed_data_path: str) -> None:
         """
-        :param embed_data_path: celebrity user embedding data path
+        :param embed_data_path: celebrity user embedding file data path
         """
         self.embed_data = pd.read_csv(os.path.join(os.getcwd(), embed_data_path, embed_data_path + '.csv'))
 
     def match_twitter_user(self, *args, random_state=None) -> Optional[tuple]:
         """
         returns users with the cosine similarity score
-        :param args: twitter usernames Optional
+        :param args: Twitter usernames Optional
         :param random_state:
         :return:
         """

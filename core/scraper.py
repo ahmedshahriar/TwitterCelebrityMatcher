@@ -67,7 +67,7 @@ class TwitterScraper:
 
     def scrape_tweets(self, screen_name: str) -> Optional[pd.DataFrame]:
         """
-        Scrape the tweets from a twitter user
+        Scrape the tweets from a Twitter user
         :param screen_name:
         :return:
         """
@@ -98,6 +98,7 @@ class TwitterScraper:
             df = pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
         except Exception as e:
             logging.error(e, exc_info=True)
+            return e
         else:
             return df
 

@@ -19,13 +19,14 @@ from typing import Optional, Union
 
 import demoji
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 import torch
 from sentence_transformers import SentenceTransformer
 
 
 class TwitterDataPrep:
-    def __init__(self, model_path: str, data_path: Optional[str] = None, embed_data_path: Optional[str] = None) -> None:
+    def __init__(self, model_path: str, data_path: Union[str, os.PathLike[str]] = None, embed_data_path: Union[str, os.PathLike[str]] = None) -> None:
         """
         Initialize the class.
         :param data_path:
@@ -132,7 +133,7 @@ class TwitterDataPrep:
         logging.info('Preprocessing done.')
         return df
 
-    def get_embeddings(self, twitter_data: pd.DataFrame) -> Optional[np.typing.NDArray]:
+    def get_embeddings(self, twitter_data: pd.DataFrame) -> Optional[npt.NDArray]:
         """
         Get the embeddings of the tweets.
         :param twitter_data:
@@ -141,7 +142,7 @@ class TwitterDataPrep:
         vectors = self.model.encode(twitter_data.tweet)
         return vectors.mean(axis=0)
 
-    def process_embedding_data(self, embeddings: Optional[np.typing.NDArray], username: str) -> pd.DataFrame:
+    def process_embedding_data(self, embeddings: Optional[npt.NDArray], username: str) -> pd.DataFrame:
         """
         Process the embeddings.
         :param username:

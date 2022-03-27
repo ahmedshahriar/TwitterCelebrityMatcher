@@ -38,10 +38,18 @@ class AppInit:
         self.data = data
 
     def init_twitter_scraper(self) -> TwitterScraper:
+        """
+        Initialize the Twitter scraper object
+        :return:
+        """
         return TwitterScraper(consumer_key=self.data.consumer_key, consumer_secret=self.data.consumer_secret,
                               access_key=self.data.access_key, access_secret=self.data.access_secret)
 
     def init_twitter_user_matcher(self) -> TwitterUserMatcher:
+        """
+        Initialize the Twitter user matcher object
+        :return:
+        """
         return TwitterUserMatcher(embed_data_path=self.data.embed_data_path)
 
 
@@ -54,30 +62,58 @@ class AppHome:
 
     @property
     def usernames_dict(self) -> dict:
+        """
+        Get the usernames dictionary
+        :return:
+        """
         return self.app.data.usernames_dict
 
     @property
     def twitter_scraper(self) -> TwitterScraper:
+        """
+        Initialize the Twitter scraper object
+        :return:
+        """
         return self.app.init.init_twitter_scraper()
 
     @property
     def twitter_user_matcher(self) -> TwitterUserMatcher:
+        """
+        Initialize the Twitter user matcher object
+        :return:
+        """
         return self.app.init.init_twitter_user_matcher()
 
     @property
     def random_suggested_usernames(self) -> list:
+        """
+        Get the random suggested usernames
+        :return:
+        """
         random.seed(15)  # will return ['gusttavo_lima' 'selenagomez' 'officialtulisa' 'drdre' 'Eminem']
         return random.sample(self.usernames_dict.keys(), 5)
 
     def capture_change_value(self) -> None:
+        """
+        Capture the state username value
+        :return:
+        """
         st.session_state.username = st.session_state.get('selected_username')
 
     def render_select_random_celebrity(self) -> None:
+        """
+        Render the select random celebrity selectbox
+        :return:
+        """
         # helpful link - https://github.com/streamlit/streamlit/issues/3601
         st.selectbox("Select a celebrity (twitter username) :", self.usernames_dict.keys(),
                      key='selected_username', on_change=self.capture_change_value)
 
     def render_suggested_users(self) -> None:
+        """
+        Render the suggested user buttons
+        :return:
+        """
         st.markdown("Or Try one of these users:")
         random_celebrity_usernames = ['taylorswift13', 'Cristiano', 'BillGates',
                                       'coldplay', 'iamsrk', 'johngreen']
@@ -89,6 +125,10 @@ class AppHome:
                     st.session_state.username = user
 
     def render_search_form(self) -> bool:
+        """
+        Render the search form
+        :return:
+        """
         st.markdown("Or Enter a username:")
         with st.form("search_form"):
             if st.session_state.get('username'):
@@ -98,6 +138,10 @@ class AppHome:
             return st.form_submit_button("Search")
 
     def render_top_search_results(self) -> None:
+        """
+        Render the top search results
+        :return:
+        """
         username = st.session_state.username.strip()
         if len(username) == 0:
             return st.warning("The username can not be empty!")
@@ -129,8 +173,9 @@ class AppHome:
         result_df['Twitter link'] = result_df['Twitter Username'].map(lambda x: 'https://twitter.com/' + x)
 
         # display the top n results
-        st.markdown(f"#### Top {self.top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' "
-                    f"({n if (n := self.usernames_dict.get(username)) else ''}):")
+        st.markdown(
+            f"#### Top {self.top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' "
+            f"({n if (n := self.usernames_dict.get(username)) else ''}):")
 
         # todo: display full text of the twitter link
         # more customization/ a possible option : https://github.com/PablocFonseca/streamlit-aggrid
@@ -140,6 +185,10 @@ class AppHome:
             st.dataframe(result_df.style.format({'Similarity Score': '{:.4f}'}))
 
     def match_two_celeb_users(self) -> None:
+        """
+        Match two Celebrity users
+        :return:
+        """
         st.markdown("#### Match Two Celebrities From The Celebrity Account List")
         celeb_usernames = st.multiselect("Select Two Celebrity (twitter username) :",
                                          self.usernames_dict.keys(),
@@ -165,6 +214,10 @@ class AppHome:
                     f"**{similarity_score:.4f}**")
 
     def match_two_users(self) -> None:
+        """
+        Match two Twitter users
+        :return:
+        """
         st.markdown("#### Match Two Twitter Users")
         user1 = st.text_input('Select Twitter User1', 'BarackObama').strip()
         user2 = st.text_input('Select Twitter User2', 'BorisJohnson').strip()
@@ -192,6 +245,10 @@ class AppHome:
                         f"**{similarity_score:.4f}**")
 
     def render_overview(self) -> None:
+        """
+        Render the overview page
+        :return:
+        """
         st.markdown("""
         #### Overview 
         This app finds similar Twitter users based on their tweets. It works in two ways 
@@ -276,6 +333,6 @@ class App:
         )
 
     def render(self):
-        self.set_config()
+        self.set_config()  # set web app config
         st.title(self.title)  # set the page title
         AppHome(self).render()  # render the home page
