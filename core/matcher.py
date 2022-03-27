@@ -56,10 +56,11 @@ class TwitterUserMatcher:
             usernames = random_users_df.username.values
             similarity_score = util.cos_sim(random_users_df.iloc[:, 1:].values[0],
                                             random_users_df.iloc[:, 1:].values[1])
-            return usernames, np.squeeze(similarity_score)
 
         except Exception as e:
             logging.error(e)
+        else:
+            return usernames, np.squeeze(similarity_score)
 
     def match_top_celeb_users(self, username) -> zip:
         """
@@ -80,6 +81,7 @@ class TwitterUserMatcher:
                              self.embed_data.iloc[:, 1:].values.astype(np.float32)).numpy())
 
             top_user_dict = zip(self.embed_data.iloc[:, 0], cos_sim_results)
-            return top_user_dict
         except Exception as e:
             logging.error(e)
+        else:
+            return top_user_dict

@@ -9,7 +9,7 @@ Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
 
 import logging
 import os
-from typing import Optional
+from typing import Optional, Union
 
 import pandas as pd
 import tweepy
@@ -18,8 +18,9 @@ import tweepy
 class TwitterScraper:
     def __init__(self, consumer_key: Optional[str],
                  consumer_secret: Optional[str],
-                 access_key: Optional[str], access_secret: Optional[str],
-                 file_path: Optional[str] = None) -> None:
+                 access_key: Optional[str],
+                 access_secret: Optional[str],
+                 file_path: Union[str, os.PathLike[str]] = None) -> None:
         """
         Initialize the scraper
         :param consumer_key:
@@ -94,13 +95,10 @@ class TwitterScraper:
 
             out_tweets = [[tweet.id_str, tweet.created_at, tweet.full_text.encode("utf-8")] for tweet in alltweets]
             # Create a dataframe from the list of tweets
-            df = pd.DataFrame(out_tweets, columns=["id", "created_at", "text"])
-
+            df = pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
         except Exception as e:
             logging.error(e, exc_info=True)
-            return e
         else:
-            logging.info('\n\nfinished...')
             return df
 
     def save_tweets(self, screen_name: str) -> None:

@@ -72,7 +72,7 @@ class TwitterDataPrep:
         text = re.sub(r'\s+', ' ', text)  # remove extra spaces
         return text.strip()
 
-    def _parse_bytes(self, field: Union[str, bytes]) -> str:
+    def _parse_bytes(self, field: Union[str, ast.AST]) -> Union[str, ast.AST]:
         """ Convert string represented in Python byte-string literal syntax into a
         decoded character string. Other field types returned unchanged.
         :param field:
@@ -132,7 +132,7 @@ class TwitterDataPrep:
         logging.info('Preprocessing done.')
         return df
 
-    def get_embeddings(self, twitter_data: pd.DataFrame) -> Optional[np.array]:
+    def get_embeddings(self, twitter_data: pd.DataFrame) -> Optional[np.typing.NDArray]:
         """
         Get the embeddings of the tweets.
         :param twitter_data:
@@ -141,7 +141,7 @@ class TwitterDataPrep:
         vectors = self.model.encode(twitter_data.tweet)
         return vectors.mean(axis=0)
 
-    def process_embedding_data(self, embeddings: np.array, username: str) -> pd.DataFrame:
+    def process_embedding_data(self, embeddings: Optional[np.typing.NDArray], username: str) -> pd.DataFrame:
         """
         Process the embeddings.
         :param username:
@@ -168,7 +168,7 @@ class TwitterDataPrep:
         logging.info(f"Loading data from the folder...{self.data_path}")
         count = 1
         # check file in subdirectory
-        for root, dirs, files in os.walk(os.path.join(os.getcwd(), self.data_path)):  # type: ignore[type-var]
+        for root, dirs, files in os.walk(os.path.join(os.getcwd(), self.data_path)):
             dirs.sort(key=str)
             files.sort(key=str)
             for file in files:
@@ -204,4 +204,4 @@ class TwitterDataPrep:
                              index=False)
         logging.warning(f"Error list: {self.error_list}")
         logging.info(
-            f"Data saved to {os.path.join(os.getcwd(), self.embed_data_path, '%s.csv' % self.embed_data_path)}")  # type: ignore[type-var]
+            f"Data saved to {os.path.join(os.getcwd(), self.embed_data_path, '%s.csv' % self.embed_data_path)}")

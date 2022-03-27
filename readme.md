@@ -19,7 +19,7 @@ Setup a virtual environment and run:
 ```
 $ pip install -r requirements.txt
 ```
-#### How it works?
+## How it works?
 The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
 After preprocessing the tweets, the tweets were embedded using 
 [sentence-transformers](https://www.sbert.net/) model -

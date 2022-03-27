@@ -34,7 +34,7 @@ def scrape_embed_tweets(username: str) -> Optional[pd.DataFrame]:
     try:
         # Get the tweets of the user
         df = twitter_scraper.scrape_tweets(username)
-        if df is not pd.DataFrame:
+        if type(df) is pd.DataFrame:
             df = twitter_data_prep.preprocess_data(df)
             df = twitter_data_prep.get_embeddings(df)
             temp_df = twitter_data_prep.process_embedding_data(df, username)
