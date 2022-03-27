@@ -15,7 +15,7 @@ class TwitterUserMatcher:
         """
         self.embed_data = pd.read_csv(os.path.join(os.getcwd(), embed_data_path, embed_data_path + '.csv'))
 
-    def match_single_user(self, *args, random_state=None) -> tuple:
+    def match_twitter_user(self, *args, random_state=None) -> tuple:
         """
         returns users with the cosine similarity score
         :param args: twitter usernames Optional
@@ -51,7 +51,7 @@ class TwitterUserMatcher:
         except Exception as e:
             logging.error(e)
 
-    def match_top_users(self, username) -> zip:
+    def match_top_celeb_users(self, username) -> zip:
         """
         returns a list of the top users with the highest cosine similarity score to the given user
         :param username:

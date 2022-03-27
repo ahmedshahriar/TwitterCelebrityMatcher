@@ -6,6 +6,7 @@ This app is a tool to match celebrities from Twitter with their respective tweet
 Author: [Ahmed Shahriar Sakib](https://www.linkedin.com/in/ahmedshahriar)
 Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
 """
+import logging
 import random
 from dataclasses import dataclass
 
@@ -108,10 +109,14 @@ class AppHome:
 
         # get the top n results
         with st.spinner("**Twitter User Found**! searching for matches..."):
-            closest_list = self.twitter_user_matcher.match_top_users(username)
+            closest_list = self.twitter_user_matcher.match_top_celeb_users(username)
+
+        # could be a user with no tweets
         if not closest_list:
             return st.error("An error occurred!")
 
+        # sort the list by the similarity score
+        # [1:] to remove the first item which is the username itself
         results = sorted(closest_list, key=lambda item: item[1], reverse=True)[1:top_n + 1]
         result_df = pd.DataFrame(results, columns=['Twitter Username', 'Similarity Score'])
 
@@ -123,8 +128,7 @@ class AppHome:
         result_df['Twitter link'] = result_df['Twitter Username'].map(lambda x: 'https://twitter.com/' + x)
 
         # display the top n results
-        st.markdown("### Top " + str(top_n) + " most similar celebrities for '" + username + "'" + (
-            f" ({n})" if (n := self.usernames_dict.get(username)) else '') + ":")
+        st.markdown(f"#### Top {top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' ({n if (n := self.usernames_dict.get(username)) else ''}):")
 
         # todo: display full text of the twitter link
         # more customization/ a possible option : https://github.com/PablocFonseca/streamlit-aggrid
@@ -133,7 +137,59 @@ class AppHome:
             # st.dataframe(result_df.style.set_precision(4)) # deprecated
             st.dataframe(result_df.style.format({'Similarity Score': '{:.4f}'}))
 
+    def match_two_celeb_users(self):
+        st.markdown("#### Match Two Celebrities From The List")
+        celeb_usernames = st.multiselect("Select Two Celebrity (twitter username) :",
+                                         self.usernames_dict.keys(),
+                                         key='celeb_usernames',
+                                         help='Click the box and start typing celebrity Twitter username')
+        if len(celeb_usernames) != 2:
+            return st.warning("Please select two celebrities!")
+        else:
+            # get the similarity score
+            with st.spinner("Calculating the similarity score..."):
+                try:
+                    _, similarity_score = self.twitter_user_matcher.match_twitter_user(celeb_usernames[0], celeb_usernames[1])
+                except Exception as e:
+                    logging.info(e)
+                    return st.error(f"An error occurred!")
+            if similarity_score is None:
+                return st.error("An error occurred!")
+            else:
+                st.success(
+                    f"The similarity score between [{celeb_usernames[0]}](https://twitter.com/{celeb_usernames[0]}) "
+                    f"and [{celeb_usernames[1]}](https://twitter.com/{celeb_usernames[1]}) is: "
+                    f"**{similarity_score:.4f}**")
+
+    def match_two_users(self):
+        st.markdown("#### Match Two Twitter Users")
+        user1 = st.text_input('Select Twitter User1', 'BarackObama').strip()
+        user2 = st.text_input('Select Twitter User2', 'BorisJohnson').strip()
+
+        if len(user1) == 0 or len(user2) == 0:
+            return st.warning("Usernames can not be empty!")
+        if user1 == user2:
+            return st.warning("Please select two different users!")
+
+        if st.button('Check Similarity'):
+            if len(user1) > 0 and len(user2) > 0:
+                # get the similarity score
+                with st.spinner("Calculating the similarity score... Please wait..."):
+                    try:
+                        _, similarity_score = self.twitter_user_matcher.match_twitter_user(user1, user2)
+                    except Exception as e:
+                        logging.info(e)
+                        return st.error(f"An error occurred!")
+                if similarity_score is None:
+                    return st.error("An error occurred!")
+                else:
+                    st.success(
+                        f"The similarity score between [{user1}](https://twitter.com/{user1}) "
+                        f"and [{user2}](https://twitter.com/{user2}) is: "
+                        f"**{similarity_score:.4f}**")
+
     def render(self):
+        st.subheader("Most Similar Twitter Celebrities")
         self.render_select_random_celebrity()
         self.render_suggested_users()
 
@@ -141,6 +197,10 @@ class AppHome:
         if submitted:
             self.render_top_search_results()
 
+        st.subheader("Match 1v1 Twitter Users")
+        self.match_two_celeb_users()
+
+        self.match_two_users()
 
 
 class App:
@@ -163,5 +223,5 @@ class App:
 
     def render(self):
         self.set_config()
-        st.title(self.title)
+        st.header(self.title)
         AppHome(self).render()

@@ -51,65 +51,65 @@ def main():
     set_config()
 
     # Create a TwitterScraper object for tweepy
-    # twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY,
-    #                                  consumer_secret=CONSUMER_SECRET,
-    #                                  access_key=ACCESS_KEY,
-    #                                  access_secret=ACCESS_SECRET,
-    #                                  file_path=DATA_PATH)
+    twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY,
+                                     consumer_secret=CONSUMER_SECRET,
+                                     access_key=ACCESS_KEY,
+                                     access_secret=ACCESS_SECRET,
+                                     file_path=DATA_PATH)
 
     # check the Twitter user
-    # twitter_scraper.check_user(screen_name='aaaaaaaaaaaaaaa') # check invalid user
+    twitter_scraper.check_user(screen_name='BarackObama')  # check an invalid user by Twitter handle
 
     # fetch Twitter usernames
-    # screen_names = fetch_users()
+    screen_names = fetch_users()
 
     # scrape tweets using tweepy
-    # tweepy_scraper(twitter_scraper, screen_names)
+    tweepy_scraper(twitter_scraper, screen_names)
 
     # generate vector embeddings
-    # data_preparation()
+    data_preparation()
 
     # Twitter profile matcher
-    # matcher = TwitterUserMatcher(EMBED_DATA_PATH)
+    matcher = TwitterUserMatcher(EMBED_DATA_PATH)
 
     # Get the Twitter account names dictionary
-    # usernames_dict = username_dict()
+    usernames_dict = username_dict()
 
     """match users from celebrity dataset"""
     # match two random users
-    # usernames, similarity_score = matcher.match_single_user(random_state=43)
+    usernames, similarity_score = matcher.match_twitter_user(random_state=43)
 
     # match one user by username with another random user
     # random_state=43 returns `Schwarzenegger` xD
-    # usernames, similarity_score = matcher.match_single_user('Schwarzenegger', random_state=43)
+    usernames, similarity_score = matcher.match_twitter_user('Schwarzenegger', random_state=43)
 
     # match two users by their twitter handlers
-    # usernames, similarity_score = matcher.match_single_user('Schwarzenegger', 'RobertDowneyJr', random_state=43)
+    usernames, similarity_score = matcher.match_twitter_user('Schwarzenegger', 'RobertDowneyJr', random_state=43)
 
     """match unknown users"""
     # match with an unknown user with another random user from the celebrity dataset
-    # usernames, similarity_score = matcher.match_single_user('ahmed__shahriar', random_state=43)
+    usernames, similarity_score = matcher.match_twitter_user('ahmed__shahriar', random_state=43)
 
     # match with two unknown users
-    # usernames, similarity_score = matcher.match_single_user('ahmed__shahriar', 'Comicstorian', random_state=43)
+    usernames, similarity_score = matcher.match_twitter_user('ahmed__shahriar', 'Comicstorian', random_state=43)
 
     # print the results
-    # print(f"Similarity between {usernames[0]} and {usernames[1]} is: {similarity_score * 100:.2f}%")
+    print(f"Similarity between {usernames[0]} and {usernames[1]} is: {similarity_score * 100:.4f}%")
 
     """match top users for a single user"""
     # match with a single user from celebrity dataset
-    # username = 'RobertDowneyJr'
+    username = 'RobertDowneyJr'
 
     # match with a single user excluding celebrity dataset
-    # username = 'ahmed__shahriar'
+    username = 'ahmed__shahriar'
 
-    # top_n = 10
-    # top_results = matcher.match_top_users(username) # returns a zip object
+    top_n = 10
+    top_results = matcher.match_top_celeb_users(username)  # returns a zip object
 
-    # for k, v in sorted(top_results, key=lambda item: item[1], reverse=True)[1:top_n+1]:
-    #     print(f"Twitter username: {k} ({usernames_dict.get(k)}): {v}")
+    for k, v in sorted(top_results, key=lambda item: item[1], reverse=True)[1:top_n + 1]:
+        print(f"Twitter username: {k} ({usernames_dict.get(k)}): {v}")
 
 
 if __name__ == '__main__':
     # main()
-    App().render()
+    App().render()  # run the streamlit app
