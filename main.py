@@ -31,10 +31,6 @@ def tweepy_scraper(twitter_scraper: TwitterScraper, screen_names: list) -> None:
 
 
 def data_preparation() -> None:
-    # if not os.path.exists(os.path.join(os.getcwd(), EMBED_DATA_PATH)):
-    #     os.mkdir(os.path.join(os.getcwd(), EMBED_DATA_PATH))
-    # if not os.path.exists(os.path.join(os.getcwd(), MODEL_PATH)):
-    #     os.mkdir(os.path.join(os.getcwd(), MODEL_PATH))
     twitter_data_prep = TwitterDataPrep(model_path=MODEL_PATH, data_path=DATA_PATH, embed_data_path=EMBED_DATA_PATH)
     twitter_data_prep.load_data()
 

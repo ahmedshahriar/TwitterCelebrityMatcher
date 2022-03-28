@@ -31,6 +31,7 @@ def scrape_embed_tweets(username: str) -> Optional[pd.DataFrame]:
     twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY, consumer_secret=CONSUMER_SECRET,
                                      access_key=ACCESS_KEY,
                                      access_secret=ACCESS_SECRET)
+    logging.info("Scraping initiated  for {}".format(username))
     twitter_data_prep = TwitterDataPrep(model_path=MODEL_PATH)
     try:
         # Get the tweets of the user

@@ -11,6 +11,7 @@ import ast
 import json
 import logging
 import os
+import pdb
 import re
 import sys
 from operator import itemgetter
@@ -38,16 +39,23 @@ class TwitterDataPrep:
         self.embed_data_path = embed_data_path
         self.error_list: list[Optional[str]] = []
 
+        if not os.path.exists(os.path.join(os.getcwd(), self.model_path)):
+            os.mkdir(os.path.join(os.getcwd(), self.model_path))
+
         # download and save the model
         # https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
         # model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
         # model.save(model_path)
+        # print(f'Model saved to {model_path}')
         if model_path and len(os.listdir(model_path)) != 0:
             self.model = SentenceTransformer(model_path)
         else:
             self.model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+            # self.model.save(model_path)
+            # print(f'Model saved to {model_path}')
         if torch.cuda.is_available():
             self.model = self.model.to(torch.device("cuda"))
+
         # self.model = SentenceTransformer(model_path, device='cuda')  # remove cuda if not available
         emoticon_data_folder = Path("utilities/")
         emoticon_file_path = emoticon_data_folder / "emoticon_dict.json"
@@ -200,6 +208,9 @@ class TwitterDataPrep:
                         logging.info(f"Unexpected error: {sys.exc_info()[0]}")
                         self.error_list.append(str(sys.exc_info()[0]))
 
+        # create embedding directory if not exist
+        if not os.path.exists(os.path.join(os.getcwd(), self.embed_data_path)):
+            os.mkdir(os.path.join(os.getcwd(), self.embed_data_path))
         # dump the data to a csv file
         df_embeddings.to_csv(os.path.join(os.getcwd(), self.embed_data_path, "%s.csv" % self.embed_data_path),
                              index=False)
