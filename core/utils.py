@@ -16,7 +16,8 @@ import pandas as pd
 from core.dataprep import TwitterDataPrep
 from core.scraper import TwitterScraper
 
-from config import CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET, ACCESS_KEY, MODEL_PATH, TWITTER_USER_LIST_FILE
+from config import CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET, ACCESS_KEY, MODEL_PATH, TWITTER_USER_LIST_FILE, \
+    TWITTER_USER_LIST_PATH
 
 
 def scrape_embed_tweets(username: str) -> Optional[pd.DataFrame]:
@@ -52,7 +53,7 @@ def username_dict() -> Mapping:
     Generate a dictionary of usernames
     :return: dictionary of usernames
     """
-    df_list = pd.read_csv(os.path.join(os.getcwd(), TWITTER_USER_LIST_FILE),
+    df_list = pd.read_csv(os.path.join(os.getcwd(), TWITTER_USER_LIST_PATH, TWITTER_USER_LIST_FILE),
                           header=0)  # + os.sep + os.pardir for current dir if run the app from app directory
     return pd.Series(df_list.name.values, index=df_list.twitter).to_dict()  # lower to bypass case issue
 

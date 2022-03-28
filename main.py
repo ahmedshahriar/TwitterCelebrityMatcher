@@ -5,8 +5,8 @@ import time
 import pandas as pd
 
 from app.app import App
-from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET,
-                    ACCESS_KEY, EMBED_DATA_PATH, MODEL_PATH, TWITTER_USER_LIST_FILE)
+from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET, ACCESS_KEY,
+                    EMBED_DATA_PATH, MODEL_PATH, TWITTER_USER_LIST_PATH, TWITTER_USER_LIST_FILE)
 from core.dataprep import TwitterDataPrep
 from core.matcher import TwitterUserMatcher
 from core.scraper import TwitterScraper
@@ -15,7 +15,7 @@ from core.utils import username_dict
 
 def fetch_users() -> list:
     # Get the Twitter account names
-    handler_df = pd.read_csv(TWITTER_USER_LIST_FILE, header=0)
+    handler_df = pd.read_csv(os.path.join(os.getcwd(), TWITTER_USER_LIST_PATH, TWITTER_USER_LIST_FILE), header=0)
     screen_names = handler_df.twitter.unique().tolist()
     return screen_names
 
@@ -48,7 +48,6 @@ def set_config() -> None:
 
 
 def main() -> None:
-
     # Create a TwitterScraper object for tweepy
     twitter_scraper = TwitterScraper(consumer_key=CONSUMER_KEY,
                                      consumer_secret=CONSUMER_SECRET,

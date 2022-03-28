@@ -15,5 +15,7 @@ DATA_PATH = 'twitter-data'  # path to save tweets for each user
 EMBED_DATA_PATH = 'twitter-embed-data'  # path to save embedding data
 MODEL_PATH = 'models'  # path to save/load models
 
+# user listing path
+TWITTER_USER_LIST_PATH = 'celebrity-listing'
 # user listing file
-TWITTER_USER_LIST_FILE = 'celebrity-listing\\Top-1000-Celebrity-Twitter-Accounts.csv'
+TWITTER_USER_LIST_FILE = 'Top-1000-Celebrity-Twitter-Accounts.csv'
