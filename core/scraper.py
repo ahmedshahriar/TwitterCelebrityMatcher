@@ -51,6 +51,18 @@ class TwitterScraper:
             logging.error(e, exc_info=True)
             return False
 
+    def fetch_profile_name(self, screen_name: str) -> str:
+        """
+        Fetch the profile name
+        :param screen_name:
+        :return:
+        """
+        try:
+            return self.api.get_user(screen_name=screen_name).name
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            return ""
+
     def check_user(self, screen_name: str) -> bool:
         """
         Check if a user exists

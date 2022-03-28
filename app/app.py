@@ -175,7 +175,7 @@ class AppHome:
         # display the top n results
         st.markdown(
             f"#### Top {self.top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' "
-            f"({n if (n := lower_dict(self.usernames_dict).get(username.lower())) else ''}):")  # lower() to bypass case issue
+            f"({n if (n := lower_dict(self.usernames_dict).get(username.lower())) else self.twitter_scraper.fetch_profile_name(username) }):")  # lower() to bypass case issue
 
         # todo: display full text of the twitter link
         # more customization/ a possible option : https://github.com/PablocFonseca/streamlit-aggrid
