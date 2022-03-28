@@ -1,5 +1,5 @@
 # Twitter Celebrity Matcher
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ahmedshahriar/TwitterCelebrityMatcher/main)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ahmedshahriar/TwitterCelebrityMatcher/main) [![Live in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/ahmedshahriar/twittercelebritymatcher/main/main.py)
 
 The objective of this project is to match celebrity users with their respective tweets by making use of Semantic Textual Similarity.
 
@@ -8,7 +8,7 @@ This app finds similar Twitter users based on their tweets. It works in two ways
  Twitter celebrity accounts). 
 2. Find similarity between two Twitter users based on their tweets. 
 
-## Setup
+## Setup 🔧
 
 Add the following to your `.env` file to work with tweepy:
 ```
@@ -28,7 +28,7 @@ $ pip install --no-cache-dir --force-reinstall torch==1.11.0+cu113 torchvision==
 ```
 
 
-### Streamlit App
+### Streamlit App 💻
 
 The app file is located at `app/app.py`.
 
@@ -108,13 +108,13 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-1.png)
 
 ### Match 1v1 Celebrities
-#### UI
+#### User Interface
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-2.png)
 
-#### Result
+#### Result Section
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-1v1.png)
 
-## Findings!
+## Findings! 🔎
 - Most of the celebrities are from music, film or sports industry. The similarity results in these categories are very impressive.  
 
 ### Music
