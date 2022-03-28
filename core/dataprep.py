@@ -42,10 +42,6 @@ class TwitterDataPrep:
         # https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
         # model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
         # model.save(model_path)
-        if not os.path.exists(os.path.join(os.getcwd(), embed_data_path)):
-            os.mkdir(os.path.join(os.getcwd(), embed_data_path))
-        if not os.path.exists(os.path.join(os.getcwd(), model_path)):
-            os.mkdir(os.path.join(os.getcwd(), model_path))
         if model_path and len(os.listdir(model_path)) != 0:
             self.model = SentenceTransformer(model_path)
         else:
