@@ -26,10 +26,14 @@ The app file is located at `app/app.py`.
 ```
 $ streamlit run main.py
 ```
+#### App Walkthrough
+
+![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/walkthrough.gif)
+
 ## How it works?
 The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
 After preprocessing the tweets, the tweets were embedded using 
-[sentence-transformers](https://www.sbert.net/) model -
+[sentence-transformers](https://www.sbert.net/) **pretrained multilingual** model -
 [paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
 The similarity score between tweets embeddings is calculated using 
 [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity).
@@ -82,6 +86,63 @@ Current pipeline :
 
 Word embedding dimension : 384
 
+## Screenshots
+
+### Match Top Celebrities
+![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-1.png)
+
+### Match 1v1 Celebrities
+#### UI
+![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-2.png)
+
+#### Result
+![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-1v1.png)
+
+## Findings!
+- Most of the celebrities are from music, film or sports industry. The similarity results in these categories are very impressive.  
+
+<details>
+ <summary> Click to view similar celebrities from music industry - individual (query - `Taylor Swift`) </summary>
+ 
+ ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-singer.png)
+ 
+ </details>
+ 
+<details>
+ <summary> Click to view similar celebrities from music industry - band (query - `Coldplay`)  </summary>
+ 
+ ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-band.png)
+ 
+ </details>
+ 
+ <details>
+ <summary> Click to view similar celebrities from music industry - footballer (query - `Cristiano Ronaldo`)  </summary>
+ 
+ ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-footballer.png)
+ 
+ </details>
+ 
+- The multilingual model does a great job finding region/culture specific attributes. Below is an example of bollywood celebrities 
+
+ <details>
+ <summary> Click to view similar celebrities from film industry - actor (query - `Shah Rukh Khan`)  </summary>
+ 
+ ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-indian-actor.png)
+ 
+ </details>
+ 
+- The number of authors in this celebrity list is comparatively lower than other dominating professions (actors, singers, footballers etc). So in this example the first few results (first two from the results -> both are above `0.94` score )  were good but then the score drops. The **drop rate** is higher that the results from the dominating celebrity professions where the top score is around `0.96`+ and first 10 or 20 from the list have very close score. This will vary but with only 917 users the performance of the pretrained model is great in this case
+  
+ <details>
+ <summary> Click to view similar celebrity authors - actor (query - `John Green`)  </summary>
+ 
+ ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-author.png)
+ 
+ </details>
+
+
+NB: Due to space limitation, the above screenshots displays only top 10 results, try the app to view more top results which are very similar to the query 
+
 ## FYI
 - With CUDA enabled GPU the app runs ~5x faster than CPU.
                 
@@ -106,6 +167,7 @@ streamlit==1.7.0
 tweepy==4.7.0
 ```
 ## Reference
+- [Identifying Insomnia From Social Media Posts: Psycholinguistic Analyses of User Tweets](https://www.jmir.org/2021/12/e27613)
 - [An Effective BERT-Based Pipeline for Twitter Sentiment Analysis: A Case Study in Italian](https://www.mdpi.com/1424-8220/21/1/133)
 - [Twitter Sentiment Analysis with Deep Learning using BERT and Hugging Face](https://medium.com/mlearning-ai/twitter-sentiment-analysis-with-deep-learning-using-bert-and-hugging-face-830005bcdbbf)
 - [Twitter Sentiment Analysis with Twint and Textblob](https://medium.com/@andrew.schleiss/twitter-sentiment-analysis-with-twint-and-textblob-53edbb133bbd)
