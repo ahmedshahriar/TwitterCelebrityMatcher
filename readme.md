@@ -67,6 +67,11 @@ NB:
 - There are some duplicates in the dataset. (986 after filtering)
 - There are some unofficial Celebrity accounts (ex - [twitter.com/sonunigam](https://twitter.com/sonunigam)) with very small amount of tweets. Here is a good research paper on this topic - [25 Tweets to Know You: A New Model to Predict Personality with Social Media](https://arxiv.org/abs/1704.05513) 
 
+### Generated Embeddings of Celebrity Tweets
+
+The final embeddings of all celebrity tweets  - 
+- [Twitter Celebrity Embed Data](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/twitter-celebrity-embed-data/twitter-celebrity-embed-data.csv)
+
 ### Data Preprocessing
 Current pipeline : 
  - Removed hashtags, urls, and mentions 

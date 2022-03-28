@@ -83,7 +83,6 @@ fabric.properties
 models
 *.zip
 twitter-data
-twitter-embed-data
 *.ipynb
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,python,pycharm

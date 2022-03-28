@@ -12,7 +12,7 @@ CONSUMER_SECRET: Optional[str] = os.environ.get("CONSUMER_SECRET")
 
 # folder path
 DATA_PATH = 'twitter-data'  # path to save tweets for each user
-EMBED_DATA_PATH = 'twitter-embed-data'  # path to save embedding data
+EMBED_DATA_PATH = 'twitter-celebrity-embed-data'  # path to save embedding data
 MODEL_PATH = 'models'  # path to save/load models
 
 # user listing path
