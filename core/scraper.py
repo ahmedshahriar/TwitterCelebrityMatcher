@@ -42,7 +42,7 @@ class TwitterScraper:
     def verify_tweepy_api(self) -> bool:
         """
         Verify if the tweepy api is working
-        :return:
+        :return: True if the api is working
         """
         try:
             self.api.verify_credentials()
@@ -55,7 +55,7 @@ class TwitterScraper:
         """
         Check if a user exists
         :param screen_name:
-        :return:
+        :return: True if the user exists
         """
         try:
             # NB : pass keyword argument `screen_name` to get_user()
@@ -69,7 +69,7 @@ class TwitterScraper:
         """
         Scrape the tweets from a Twitter user
         :param screen_name:
-        :return:
+        :return: DataFrame of the tweets
         """
         try:
             logging.info("\n\nstarting...")

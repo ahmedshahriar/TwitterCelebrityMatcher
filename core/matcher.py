@@ -30,7 +30,7 @@ class TwitterUserMatcher:
         returns users with the cosine similarity score
         :param args: Twitter usernames Optional
         :param random_state:
-        :return:
+        :return: tuple of (usernames, cosine similarity score)
         """
         try:
             if len(args) == 0:
@@ -66,7 +66,7 @@ class TwitterUserMatcher:
         """
         returns a list of the top users with the highest cosine similarity score to the given user
         :param username:
-        :return:
+        :return: zip object of usernames and cosine similarity score
         """
         try:
             if username.lower() in self.embed_data.username.str.lower().values: # lower() to bypass case issue

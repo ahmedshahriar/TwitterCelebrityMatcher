@@ -18,7 +18,7 @@ from pandas import option_context
 from config import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_KEY, ACCESS_SECRET, EMBED_DATA_PATH
 from core.matcher import TwitterUserMatcher
 from core.scraper import TwitterScraper
-from core.utils import username_dict
+from core.utils import username_dict, lower_dict
 
 
 # great intro https://youtu.be/vBH6GRJ1REM
@@ -165,8 +165,8 @@ class AppHome:
         results = sorted(closest_list, key=lambda item: item[1], reverse=True)[1:self.top_n + 1]
         result_df = pd.DataFrame(results, columns=['Twitter Username', 'Similarity Score'])
 
-        # show the Celebrity Names, convert to lowercase to bypass case issue
-        result_df.insert(1, 'Name', result_df['Twitter Username'].map(lambda x: self.usernames_dict.get(x.lower())))
+        # show the Celebrity Names
+        result_df.insert(1, 'Name', result_df['Twitter Username'].map(lambda x: self.usernames_dict.get(x)))
         # result_df['Similarity Score'] = result_df['Similarity Score'].map(lambda x: round(x, 4)) # no need
 
         # display the Twitter profile link
@@ -175,7 +175,7 @@ class AppHome:
         # display the top n results
         st.markdown(
             f"#### Top {self.top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' "
-            f"({n if (n := self.usernames_dict.get(username.lower())) else ''}):")  # lower() to bypass case issue
+            f"({n if (n := lower_dict(self.usernames_dict).get(username.lower())) else ''}):")  # lower() to bypass case issue
 
         # todo: display full text of the twitter link
         # more customization/ a possible option : https://github.com/PablocFonseca/streamlit-aggrid

@@ -95,6 +95,8 @@ Current pipeline :
 
 Word embedding dimension : 384
 
+Download SBERT pretrained models directly from [here](https://public.ukp.informatik.tu-darmstadt.de/reimers/sentence-transformers/v0.2/)
+
 ## Screenshots
 
 ### Match Top Celebrities

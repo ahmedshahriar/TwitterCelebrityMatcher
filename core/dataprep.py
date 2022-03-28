@@ -18,7 +18,6 @@ from pathlib import Path
 from typing import Optional, Union
 
 import demoji
-import numpy as np
 import numpy.typing as npt
 import pandas as pd
 import torch
@@ -26,7 +25,8 @@ from sentence_transformers import SentenceTransformer
 
 
 class TwitterDataPrep:
-    def __init__(self, model_path: str, data_path: Union[str, os.PathLike[str]] = None, embed_data_path: Union[str, os.PathLike[str]] = None) -> None:
+    def __init__(self, model_path: str, data_path: Union[str, os.PathLike[str]] = None,
+                 embed_data_path: Union[str, os.PathLike[str]] = None) -> None:
         """
         Initialize the class.
         :param data_path:
@@ -76,8 +76,8 @@ class TwitterDataPrep:
     def _parse_bytes(self, field: Union[str, ast.AST]) -> Union[str, ast.AST]:
         """ Convert string represented in Python byte-string literal syntax into a
         decoded character string. Other field types returned unchanged.
-        :param field:
-        :return:
+        :param field: string or bytestring
+        :return: string
         """
 
         result = field
@@ -112,7 +112,7 @@ class TwitterDataPrep:
         """
         Preprocess the tweets.
         :param df: dataframe
-        :return:
+        :return: dataframe
         """
         logging.info('Preprocessing data...')
         # open encoded file
@@ -137,7 +137,7 @@ class TwitterDataPrep:
         """
         Get the embeddings of the tweets.
         :param twitter_data:
-        :return:
+        :return: embeddings
         """
         vectors = self.model.encode(twitter_data.tweet)
         return vectors.mean(axis=0)
@@ -163,7 +163,7 @@ class TwitterDataPrep:
     def load_data(self) -> None:
         """
         Dump the generated embeddings to a csv file.
-        :return: the data
+        :return:
         """
         df_embeddings = pd.DataFrame()
         logging.info(f"Loading data from the folder...{self.data_path}")

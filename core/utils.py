@@ -23,7 +23,7 @@ def scrape_embed_tweets(username: str) -> Optional[pd.DataFrame]:
     """
     Scrape tweets and generate embedding dataframe
     :param username: Twitter username
-    :return:
+    :return: embedding dataframe
     """
     df_embeddings = pd.DataFrame()
     # Create a TwitterScraper object for tweepy
@@ -50,8 +50,18 @@ def scrape_embed_tweets(username: str) -> Optional[pd.DataFrame]:
 def username_dict() -> Mapping:
     """
     Generate a dictionary of usernames
-    :return:
+    :return: dictionary of usernames
     """
     df_list = pd.read_csv(os.path.join(os.getcwd(), TWITTER_USER_LIST_FILE),
                           header=0)  # + os.sep + os.pardir for current dir if run the app from app directory
-    return pd.Series(df_list.name.values, index=df_list.twitter.str.lower()).to_dict()  # lower to bypass case issue
+    return pd.Series(df_list.name.values, index=df_list.twitter).to_dict()  # lower to bypass case issue
+
+
+def lower_dict(dict_to_lower: dict) -> dict:
+    """
+    Lower the keys of a dictionary
+    :param dict_to_lower:
+    :return: converted dictionary
+    """
+    return dict((k.lower(), v) for k, v in dict_to_lower.items())
+
