@@ -52,5 +52,6 @@ def username_dict() -> Mapping:
     Generate a dictionary of usernames
     :return:
     """
-    df_list = pd.read_csv(os.path.join(os.getcwd(), TWITTER_USER_LIST_FILE), header=0) # + os.sep + os.pardir for current dir
-    return pd.Series(df_list.name.values, index=df_list.twitter).to_dict()
+    df_list = pd.read_csv(os.path.join(os.getcwd(), TWITTER_USER_LIST_FILE),
+                          header=0)  # + os.sep + os.pardir for current dir if run the app from app directory
+    return pd.Series(df_list.name.values, index=df_list.twitter.str.lower()).to_dict()  # lower to bypass case issue

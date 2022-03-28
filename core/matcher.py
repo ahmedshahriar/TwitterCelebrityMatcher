@@ -36,21 +36,21 @@ class TwitterUserMatcher:
             if len(args) == 0:
                 random_users_df = self.embed_data.sample(n=2, random_state=random_state)
             elif len(args) == 1:
-                if args[0] in self.embed_data.username.values:
+                if args[0].lower() in self.embed_data.username.str.lower().values:
                     random_users_df = pd.concat(
-                        [self.embed_data[self.embed_data.username == args[0]],
+                        [self.embed_data[self.embed_data.username.lower() == args[0].lower()],
                          self.embed_data.sample(random_state=random_state)])
                 else:
                     random_users_df = pd.concat(
                         [utils.scrape_embed_tweets(args[0]), self.embed_data.sample(random_state=random_state)])
             else:
                 random_users_df = pd.concat(
-                    [self.embed_data[self.embed_data.username == args[0]]
-                     if args[0] in self.embed_data.username.values
+                    [self.embed_data[self.embed_data.username.str.lower() == args[0].lower()]
+                     if args[0].lower() in self.embed_data.username.str.lower().values
                      else utils.scrape_embed_tweets(args[0]),
 
-                     self.embed_data[self.embed_data.username == args[1]]
-                     if args[1] in self.embed_data.username.values
+                     self.embed_data[self.embed_data.username.str.lower() == args[1].lower()]
+                     if args[1].lower() in self.embed_data.username.str.lower().values
                      else utils.scrape_embed_tweets(args[1])
                      ])
             usernames = random_users_df.username.values
@@ -69,8 +69,8 @@ class TwitterUserMatcher:
         :return:
         """
         try:
-            if username in self.embed_data.username.values:
-                user_df = self.embed_data[self.embed_data.username == username]
+            if username.lower() in self.embed_data.username.str.lower().values: # lower() to bypass case issue
+                user_df = self.embed_data[self.embed_data.username.str.lower() == username.lower()]
             else:
                 user_df = utils.scrape_embed_tweets(username)
 

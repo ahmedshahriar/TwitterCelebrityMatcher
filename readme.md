@@ -1,5 +1,7 @@
 # Twitter Celebrity Matcher
-The objective of this project is to match celebrity users with their respective tweets.
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ahmedshahriar/TwitterCelebrityMatcher/main)
+
+The objective of this project is to match celebrity users with their respective tweets by making use of Semantic Textual Similarity.
 
 This app finds similar Twitter users based on their tweets. It works in two ways -
 1. Get a list of most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (917\
@@ -15,10 +17,17 @@ ACCESS_SECRET=YOUR_ACCESS_SECRET
 CONSUMER_KEY=YOUR_CONSUMER_KEY
 CONSUMER_SECRET=YOUR_CONSUMER_SECRET
 ```
-Setup a virtual environment and run:
+Set up a virtual environment (preferably python 3.9+, features such as `walrus` operator was used) and run:
 ```
 $ pip install -r requirements.txt
 ```
+If you have CUDA enabled GPU, you can [set up pytorch](https://pytorch.org/get-started/locally/) with pip -
+
+```
+$ pip install --no-cache-dir --force-reinstall torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio===0.11.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+```
+
+
 ### Streamlit App
 
 The app file is located at `app/app.py`.
@@ -101,37 +110,45 @@ Word embedding dimension : 384
 ## Findings!
 - Most of the celebrities are from music, film or sports industry. The similarity results in these categories are very impressive.  
 
+### Music
+
 <details>
- <summary> Click to view similar celebrities from music industry - individual (query - `Taylor Swift`) </summary>
+ <summary> Click to view similar celebrities from music industry - **individual** (query - `Taylor Swift`) </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-singer.png)
  
  </details>
  
 <details>
- <summary> Click to view similar celebrities from music industry - band (query - `Coldplay`)  </summary>
+ <summary> Click to view similar celebrities from music industry - **band** (query - `Coldplay`)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-band.png)
  
  </details>
  
+### Sports
+
  <details>
- <summary> Click to view similar celebrities from music industry - footballer (query - `Cristiano Ronaldo`)  </summary>
+ <summary> Click to view similar celebrities from music industry - **footballer** (query - `Cristiano Ronaldo`)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-footballer.png)
  
  </details>
  
+### Regional Film Industry
+
 - The multilingual model does a great job finding region/culture specific attributes. Below is an example of bollywood celebrities 
 
  <details>
- <summary> Click to view similar celebrities from film industry - actor (query - `Shah Rukh Khan`)  </summary>
+ <summary> Click to view similar celebrities from film industry - **actor** (query - `Shah Rukh Khan`)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-indian-actor.png)
  
  </details>
  
-- The number of authors in this celebrity list is comparatively lower than other dominating professions (actors, singers, footballers etc). So in this example the first few results (first two from the results -> both are above `0.94` score )  were good but then the score drops. The **drop rate** is higher that the results from the dominating celebrity professions where the top score is around `0.96`+ and first 10 or 20 from the list have very close score. This will vary but with only 917 users the performance of the pretrained model is great in this case
+### Author
+
+- The number of **authors** in this celebrity list is comparatively lower than other dominating professions (actors, singers, footballers etc.). So in this example the first few results (first two from the results -> both are above `0.94` score )  were good but then the score drops. The **drop rate** is higher that the results from the dominating celebrity professions where the top score is around `0.96+` and first 10 or 20 from the list have very close score. This will vary but with only 917 users the performance of the pretrained model is great in this case
   
  <details>
  <summary> Click to view similar celebrity authors - actor (query - `John Green`)  </summary>
@@ -140,8 +157,23 @@ Word embedding dimension : 384
  
  </details>
 
+### Multiple Roles - Business Magnet/ Philanthropist
 
-NB: Due to space limitation, the above screenshots displays only top 10 results, try the app to view more top results which are very similar to the query 
+- From the screenshot below, it's very clear that there are few people on the list who are very active in multiple categories. 
+  - The closest of them all (for **Bill Gates**) is **Richard Branson** although the score is comparatively lower (`0.82`) than what we see in other categories. Considering how close their roles are (both are billionaires, investor, tech) this is a very positive result.
+  - `Leonardo DiCaprio` is the second placeholder because he falls into **Philanthropist** category, same goes for `Tony Robbins`
+  - Other famous **billionaires** such as - `anand mahindra` and `Ratan N. Tata` makes it to the top 10
+  - Most of the top people are either founders of large organizations, activists, philanthropists or authors. (**Bill Gates** published few books, so this could be another factor)
+
+ <details>
+ <summary> Click to view similar celebrity billionaires/investors/businessmen/investor - actor (query - `Bill Gates`)  </summary>
+ 
+ ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/twitter-matcher-bill-gates.png)
+ 
+ </details>
+
+
+NB: Due to space limitation, the screenshots above displays only top 10 results, try the app to view more top results which are very similar to the query 
 
 ## FYI
 - With CUDA enabled GPU the app runs ~5x faster than CPU.
@@ -169,5 +201,6 @@ tweepy==4.7.0
 ## Reference
 - [Identifying Insomnia From Social Media Posts: Psycholinguistic Analyses of User Tweets](https://www.jmir.org/2021/12/e27613)
 - [An Effective BERT-Based Pipeline for Twitter Sentiment Analysis: A Case Study in Italian](https://www.mdpi.com/1424-8220/21/1/133)
+- [SBERT Multilingual Models](https://www.sbert.net/examples/training/multilingual/README.html)
 - [Twitter Sentiment Analysis with Deep Learning using BERT and Hugging Face](https://medium.com/mlearning-ai/twitter-sentiment-analysis-with-deep-learning-using-bert-and-hugging-face-830005bcdbbf)
 - [Twitter Sentiment Analysis with Twint and Textblob](https://medium.com/@andrew.schleiss/twitter-sentiment-analysis-with-twint-and-textblob-53edbb133bbd)

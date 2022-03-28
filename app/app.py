@@ -165,8 +165,8 @@ class AppHome:
         results = sorted(closest_list, key=lambda item: item[1], reverse=True)[1:self.top_n + 1]
         result_df = pd.DataFrame(results, columns=['Twitter Username', 'Similarity Score'])
 
-        # show the Celebrity Names
-        result_df.insert(1, 'Name', result_df['Twitter Username'].map(lambda x: self.usernames_dict.get(x)))
+        # show the Celebrity Names, convert to lowercase to bypass case issue
+        result_df.insert(1, 'Name', result_df['Twitter Username'].map(lambda x: self.usernames_dict.get(x.lower())))
         # result_df['Similarity Score'] = result_df['Similarity Score'].map(lambda x: round(x, 4)) # no need
 
         # display the Twitter profile link
@@ -175,7 +175,7 @@ class AppHome:
         # display the top n results
         st.markdown(
             f"#### Top {self.top_n} Most Similar Celebrities For '[{username}](https://twitter.com/{username})' "
-            f"({n if (n := self.usernames_dict.get(username)) else ''}):")
+            f"({n if (n := self.usernames_dict.get(username.lower())) else ''}):")  # lower() to bypass case issue
 
         # todo: display full text of the twitter link
         # more customization/ a possible option : https://github.com/PablocFonseca/streamlit-aggrid
@@ -209,8 +209,8 @@ class AppHome:
                 return st.error("An error occurred!")
             else:
                 st.success(
-                    f"The similarity score between **[{celeb_usernames[0]}](https://twitter.com/{celeb_usernames[0]})** "
-                    f"and **[{celeb_usernames[1]}](https://twitter.com/{celeb_usernames[1]})** is: "
+                    f"The similarity score between **[{celeb_usernames[0]}](https://twitter.com/{celeb_usernames[0]})**"
+                    f" and **[{celeb_usernames[1]}](https://twitter.com/{celeb_usernames[1]})** is: "
                     f"**{similarity_score:.4f}**")
 
     def match_two_users(self) -> None:
@@ -252,7 +252,7 @@ class AppHome:
         st.markdown("""
         #### Overview 
         This app finds similar Twitter users based on their tweets. It works in two ways 
-        1. Get a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (over 900\
+        1. Get a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (917\
          Twitter celebrity accounts). 
         2. Find similarity between two Twitter users based on their tweets. 
         """)
@@ -268,7 +268,7 @@ class AppHome:
                 #### How it works?
                 The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
                 After preprocessing the tweets, the tweets were embedded using 
-                [sentence-transformers](https://www.sbert.net/) model -
+                [sentence-transformers](https://www.sbert.net/) **pretrained multilingual** model -
                 [paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
                 The similarity score between tweets embeddings is calculated using 
                 [cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity).
