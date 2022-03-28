@@ -27,14 +27,22 @@ If you have CUDA enabled GPU, you can [set up pytorch](https://pytorch.org/get-s
 $ pip install --no-cache-dir --force-reinstall torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio===0.11.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
 ```
 
+Static type testing - 
+```
+$ mypy main.py --ignore-missing-imports
+```
 
 ### Streamlit App
 
 The app file is located at `app/app.py`.
 
+To run the app, run the following command after installing necessary dependencies from `requirements.txt` -
+
 ```
 $ streamlit run main.py
 ```
+will start the app at default port `8501`.
+
 #### App Walkthrough
 
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/walkthrough.gif)
@@ -185,11 +193,11 @@ NB: Due to space limitation, the screenshots above displays only top 10 results,
 ## FYI
 - With CUDA enabled GPU the app runs ~5x faster than CPU.
                 
-For ~3200 tweets - 
+For ~3200 tweets in my rig (AMD 2600x, 1050ti, 768 CUDA cores) - 
   - With the current scraping scripts, it takes ~14-16 seconds to download tweets
-  - With `pandas` it takes ~8 seconds to **preprocess** the tweets (AMD 2600x)
-  - It takes ~6 seconds to **generate embeddings** from processed tweets (1050ti, 768 CUDA cores)
-  - Took **~2h 5m** in total to preprocess and encode all users' (917) tweets
+  - With `pandas` it takes ~8 seconds to **preprocess** the tweets
+  - It takes ~6 seconds to **generate embeddings** from processed tweets
+  - Takes **~2h 5m** in total to preprocess and generate embedding for all users' (917 total) tweets
 
 ## Built With
 ```

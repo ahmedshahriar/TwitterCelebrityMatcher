@@ -277,7 +277,7 @@ class AppHome:
                 1. Takes a Twitter username
                 2. Scrapes the tweets if it's unavailable
                 3. Generate embeddings of the given Twitter account's tweets
-                5. Calculate the mean embedding of the tweets (limitation ~3200 tweets)
+                5. Calculate the mean embedding of the tweets (limitation **~3200** tweets)
                 4. Finds the **cosine similarity** between 
                     - Given user's tweets embeddings and celebrity tweets embeddings
                     - Given two user's tweets embeddings
@@ -286,11 +286,11 @@ class AppHome:
                 #### Performance
                 - With CUDA enabled GPU the app runs ~5x faster than CPU.
                 
-                For ~3200 tweets - 
-                - With the current scraping scripts, it takes ~14-16 seconds to download tweets
-                - With `pandas` it takes ~8 seconds to preprocess the tweets (AMD 2600x)
-                - It takes ~6 seconds to generate embeddings from processed tweets (1050ti, 768 CUDA cores)
-                - Took ~2h 5m in total to preprocess and encode all users' (917) tweets
+                For ~3200 tweets in my rig (AMD 2600x, 1050ti, 768 CUDA cores)- 
+                - With the current scraping scripts, it takes **~14-16 seconds** to download tweets
+                - With `pandas` it takes **~8 seconds** to preprocess the tweets (AMD 2600x)
+                - It takes **~6 seconds** to generate embeddings from processed tweets (1050ti, 768 CUDA cores)
+                - Took **~2h 5m** in total to preprocess and generate embedding for all users' (917 total) tweets
                 
                 ---
                 
