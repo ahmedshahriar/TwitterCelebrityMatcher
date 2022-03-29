@@ -128,14 +128,14 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 ### Music
 
 <details>
- <summary> Click to view similar celebrities from music industry - **individual** (query - `Taylor Swift`) </summary>
+ <summary> Click to view similar celebrities from music industry - <b>individual</b> (query - <code>Taylor Swift</code>) </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-singer.png)
  
  </details>
  
 <details>
- <summary> Click to view similar celebrities from music industry - **band** (query - `Coldplay`)  </summary>
+ <summary> Click to view similar celebrities from music industry - <b>band</b> (query - <code>Coldplay</code>)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-band.png)
  
@@ -144,7 +144,7 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 ### Sports
 
  <details>
- <summary> Click to view similar celebrities from music industry - **footballer** (query - `Cristiano Ronaldo`)  </summary>
+ <summary> Click to view similar celebrities from music industry - <b>footballer</b> (query - <code>Cristiano Ronaldo</code>)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-footballer.png)
  
@@ -155,7 +155,7 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 - The multilingual model does a great job finding region/culture specific attributes. Below is an example of bollywood celebrities 
 
  <details>
- <summary> Click to view similar celebrities from film industry - **actor** (query - `Shah Rukh Khan`)  </summary>
+ <summary> Click to view similar celebrities from film industry - <b>actor</b> (query - <code>Shah Rukh Khan</code>)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-indian-actor.png)
  
@@ -166,7 +166,7 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 - The number of **authors** in this celebrity list is comparatively lower than other dominating professions (actors, singers, footballers etc.). So in this example the first few results (first two from the results -> both are above `0.94` score )  were good but then the score drops. The **drop rate** is higher that the results from the dominating celebrity professions where the top score is around `0.96+` and first 10 or 20 from the list have very close score. This will vary but with only 917 users the performance of the pretrained model is great in this case
   
  <details>
- <summary> Click to view similar celebrity authors - actor (query - `John Green`)  </summary>
+ <summary> Click to view similar celebrity authors - (query - <code>John Green</code>)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-author.png)
  
@@ -181,7 +181,7 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
   - Most of the top people are either founders of large organizations, activists, philanthropists or authors. (**Bill Gates** published few books, so this could be another factor)
 
  <details>
- <summary> Click to view similar celebrity billionaires/investors/businessmen/investor - actor (query - `Bill Gates`)  </summary>
+ <summary> Click to view similar celebrity billionaires/investors/businessmen/investor - (query - <code>Bill Gates</code>)  </summary>
  
  ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/twitter-matcher-bill-gates.png)
  
