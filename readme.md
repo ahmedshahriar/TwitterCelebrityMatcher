@@ -8,6 +8,9 @@ This app finds similar Twitter users based on their tweets. It works in two ways
  Twitter celebrity accounts). 
 2. Find similarities between two Twitter users based on their tweets. 
 
+:computer: [**Streamlit App**](#streamlit-app) | :ballot_box_with_check: [**How it works?**](#how-it-works) | :hammer_and_wrench: [**Project Structure**](#project-structure) | :floppy_disk: [**Dataset**](#dataset) |:camera: [**Screenshots**](#screenshots) | 🔎 [**Findings**](#findings) | :arrow_down: [**Built With**](#built-with)
+--- | --- | --- | --- |--- | --- | ---
+
 ## Setup 🔧
 
 Add the following to your `.env` file to work with tweepy:
@@ -32,7 +35,7 @@ Static type testing -
 $ mypy main.py --ignore-missing-imports
 ```
 
-### Streamlit App 💻
+### Streamlit App💻
 
 The app file is located at `app/app.py`.
 
@@ -46,6 +49,43 @@ will start the app at default port `8501`.
 #### App Walkthrough
 
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/walkthrough.gif)
+
+## Project Structure
+
+```
+TwitterCelebrityMatcher
+├── api
+│   ├── __init__.py
+│   ├── api.py
+├── app
+│   ├── __init__.py
+│   ├── app.py
+├── celebrity-listing
+│   ├── Top-1000-Celebrity-Twitter-Accounts.csv
+├── core
+│   ├── __init__.py
+│   ├── dataprep.py
+│   ├── matcher.py
+│   ├── scraper.py
+│   ├── utils.py
+├── twitter-celebrity-embed-data
+│   ├── twitter-celebrity-embed-data.csv
+└── .env
+    |
+    config.py
+    |
+    main.py    
+```
+- **api** - fastApi script
+- **app** - streamlit app script
+- **core** - contains 3 helper scripts
+  - **dataprep.py** - scripts for all preprocessing tasks ( tweet cleaning, embedding generation etc.)
+  - **matcher.py** - core functionalities to match twitter users
+  - **matcher.py** - twitter scraper helper script
+- **config.py** - all configuration variables
+- **main.py** - run 3 apps - console scripts, streamlit app or API
+
+`utitlities` directory contains a standalone tweepy scraper scripts - `tweepy_scraper.py` and emoticon proprocessing scripts (original from `ekphrasis` module)
 
 ## How it works?
 The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
@@ -122,7 +162,7 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 #### Result Section
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/Twitter-celebrity-matcher-1v1.png)
 
-## Findings! 🔎
+## Findings!🔎
 - Most of the celebrities are from music, film or sports industry. The similarity results in these categories are very impressive.  
 
 ### Music
