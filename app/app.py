@@ -230,7 +230,7 @@ class AppHome:
         if st.button('Check Similarity'):
             if len(user1) > 0 and len(user2) > 0:
                 # get the similarity score
-                with st.spinner("Calculating the similarity score... Please wait..."):
+                with st.spinner("Calculating the similarity score... Please wait...This might take a while..."):
                     try:
                         if score_result := self.twitter_user_matcher.match_twitter_user(user1, user2):
                             _, similarity_score = score_result

@@ -114,5 +114,5 @@ if __name__ == '__main__':
     # run the main function
     # main()
     App().render()  # run the streamlit app
-
+    # run fast API
     # uvicorn.run("__main__:app", host='127.0.0.1', log_level="info", reload=True, debug=True, port=8000)

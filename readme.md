@@ -4,9 +4,9 @@
 The objective of this project is to match celebrity users with their respective tweets by making use of Semantic Textual Similarity.
 
 This app finds similar Twitter users based on their tweets. It works in two ways -
-1. Get a list of most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (917\
+1. Get a list of the most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (917\
  Twitter celebrity accounts). 
-2. Find similarity between two Twitter users based on their tweets. 
+2. Find similarities between two Twitter users based on their tweets. 
 
 ## Setup 🔧
 
