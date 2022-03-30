@@ -3,7 +3,9 @@ import os
 import time
 
 import pandas as pd
+import uvicorn
 
+from api.api import app
 from app.app import App
 from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET, ACCESS_KEY,
                     EMBED_DATA_PATH, MODEL_PATH, TWITTER_USER_LIST_PATH, TWITTER_USER_LIST_FILE)
@@ -107,6 +109,10 @@ def main() -> None:
 
 
 if __name__ == '__main__':
+    # set the configuration
     set_config()
+    # run the main function
     # main()
     App().render()  # run the streamlit app
+
+    # uvicorn.run("__main__:app", host='127.0.0.1', log_level="info", reload=True, debug=True, port=8000)

@@ -9,3 +9,7 @@ pandas~=1.4.1
 numpy~=1.22.3
 pytest==7.1.1
 mypy==0.942
+fastapi~=0.75.0
+torch~=1.11.0+cu113
+pydantic~=1.9.0
+uvicorn~=0.17.6

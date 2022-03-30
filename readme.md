@@ -17,7 +17,7 @@ ACCESS_SECRET=YOUR_ACCESS_SECRET
 CONSUMER_KEY=YOUR_CONSUMER_KEY
 CONSUMER_SECRET=YOUR_CONSUMER_SECRET
 ```
-Set up a virtual environment (preferably python 3.9+, features such as `walrus` operator was used) and run:
+Set up a virtual environment (preferably python 3.8+, features such as `walrus` operator was used) and run:
 ```
 $ pip install -r requirements.txt
 ```

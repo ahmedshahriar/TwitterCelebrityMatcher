@@ -200,8 +200,8 @@ class AppHome:
             # get the similarity score
             with st.spinner("Calculating the similarity score..."):
                 try:
-                    _, similarity_score = self.twitter_user_matcher.match_twitter_user(celeb_usernames[0],
-                                                                                       celeb_usernames[1])
+                    if score_result := self.twitter_user_matcher.match_twitter_user(celeb_usernames[0], celeb_usernames[1]):
+                        _, similarity_score = score_result
                 except Exception as e:
                     logging.info(e)
                     return st.error(f"An error occurred!")
@@ -232,7 +232,8 @@ class AppHome:
                 # get the similarity score
                 with st.spinner("Calculating the similarity score... Please wait..."):
                     try:
-                        _, similarity_score = self.twitter_user_matcher.match_twitter_user(user1, user2)
+                        if score_result := self.twitter_user_matcher.match_twitter_user(user1, user2):
+                            _, similarity_score = score_result
                     except Exception as e:
                         logging.info(e)
                         return st.error(f"An error occurred!")

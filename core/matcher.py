@@ -59,6 +59,7 @@ class TwitterUserMatcher:
 
         except Exception as e:
             logging.error(e)
+            return None
         else:
             return usernames, np.squeeze(similarity_score)
 
