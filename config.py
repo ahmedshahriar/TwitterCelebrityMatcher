@@ -11,11 +11,11 @@ CONSUMER_KEY: Optional[str] = os.environ.get("CONSUMER_KEY")
 CONSUMER_SECRET: Optional[str] = os.environ.get("CONSUMER_SECRET")
 
 # folder path
-DATA_PATH = 'twitter-data'  # path to save tweets for each user
-EMBED_DATA_PATH = 'twitter-celebrity-embed-data'  # path to save embedding data
-MODEL_PATH = 'models'  # path to save/load models
+DATA_PATH = os.environ.get("DATA_PATH")  # path to save tweets for each user
+EMBED_DATA_PATH = os.environ.get("EMBED_DATA_PATH")  # path to save embedding data
+MODEL_PATH = os.environ.get('MODEL_PATH')  # path to save/load models
 
 # user listing path
-TWITTER_USER_LIST_PATH = 'celebrity-listing'
+TWITTER_USER_LIST_PATH = os.environ.get("TWITTER_USER_LIST_PATH")
 # user listing file
-TWITTER_USER_LIST_FILE = 'Top-1000-Celebrity-Twitter-Accounts.csv'
+TWITTER_USER_LIST_FILE = os.environ.get("TWITTER_USER_LIST_FILE")

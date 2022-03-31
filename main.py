@@ -5,7 +5,7 @@ import time
 import pandas as pd
 import uvicorn
 
-from api.api import app
+from api.api import app # import fastAPI app
 from app.app import App
 from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET, ACCESS_KEY,
                     EMBED_DATA_PATH, MODEL_PATH, TWITTER_USER_LIST_PATH, TWITTER_USER_LIST_FILE)
