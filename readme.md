@@ -13,18 +13,35 @@ This app finds similar Twitter users based on their tweets. It works in two ways
 
 ## Setup 🔧
 
+
 Add the following to your `.env` file to work with tweepy:
 ```
 ACCESS_KEY=YOUR_ACCESS_KEY
 ACCESS_SECRET=YOUR_ACCESS_SECRET
 CONSUMER_KEY=YOUR_CONSUMER_KEY
 CONSUMER_SECRET=YOUR_CONSUMER_SECRET
+
 ```
+### Virtual Environment Setup
 Set up a virtual environment (preferably python 3.8+, features such as `walrus` operator was used) and run:
 ```
 $ pip install -r requirements.txt
 ```
-If you have CUDA enabled GPU, you can [set up pytorch](https://pytorch.org/get-started/locally/) with pip -
+Check main.py file to run the streamlit app or API.
+
+### Docker Setup
+
+Build -
+```
+docker build -t twitter-celebrity-matcher .
+```
+
+Run - 
+```
+docker run -p 8501:8501 twitter-celebrity-matcher
+```
+
+If you have CUDA enabled GPU, you can [set up pytorch](https://pytorch.org/get-started/locally/) (for **SBERT**) with pip -
 
 ```
 $ pip install --no-cache-dir --force-reinstall torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio===0.11.0+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html

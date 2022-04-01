@@ -14,5 +14,5 @@ COPY requirements.txt /tmp
 
 WORKDIR /src
 RUN pip3 install -r /tmp/requirements.txt
-RUN python3 -c "import os;from sentence_transformers import SentenceTransformer; model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'); model.save('models')"
+RUN python3 -c "from sentence_transformers import SentenceTransformer; model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'); model.save('models')"
 CMD ["streamlit","run",  "main.py"]
