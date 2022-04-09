@@ -67,6 +67,10 @@ will start the app at default port `8501`.
 
 ![](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/assets/walkthrough.gif)
 
+<div align="right">
+    <b><a href="#twitter-celebrity-matcher">↥ Back To Top</a></b>
+</div>
+
 ## Project Structure
 
 ```
@@ -142,7 +146,11 @@ Current pipeline :
  - Removed hashtags, urls, and mentions 
  - Replaced emoticons with their textual representation ([`ekphrasis`](https://github.com/cbaziotis/ekphrasis))
  - Replaced emoji with their textual representation ([`demoji`](https://pypi.org/project/demoji) package)
- 
+
+<div align="right">
+    <b><a href="#twitter-celebrity-matcher">↥ Back To Top</a></b>
+</div>
+
 ## Model
 - [sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2)
 
@@ -246,6 +254,10 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
 
 
 NB: Due to space limitation, the screenshots above displays only top 10 results, try the app to view more top results which are very similar to the query 
+
+<div align="right">
+    <b><a href="#twitter-celebrity-matcher">↥ Back To Top</a></b>
+</div>
 
 ## FYI
 - With CUDA enabled GPU the app runs ~5x faster than CPU.
