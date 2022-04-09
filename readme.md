@@ -9,7 +9,7 @@ This app finds similar Twitter users based on their tweets. It works in two ways
 2. Find similarities between two Twitter users based on their tweets. 
 
 :computer: [**Streamlit App**](#streamlit-app) | :ballot_box_with_check: [**How it works?**](#how-it-works) | :hammer_and_wrench: [**Project Structure**](#project-structure) | :floppy_disk: [**Dataset**](#dataset) |:camera: [**Screenshots**](#screenshots) | 🔎 [**Findings**](#findings) | :arrow_down: [**Built With**](#built-with)
---- | --- | --- | --- |--- | --- | ---
+--- | --- | --- | --- |--- | --- | ---|
 
 ## Setup 🔧
 
@@ -130,7 +130,7 @@ Open Source GitHub Gist -
 
 NB: 
 - There are some duplicates in the dataset. (986 after filtering)
-- There are some unofficial Celebrity accounts (ex - [twitter.com/sonunigam](https://twitter.com/sonunigam)) with very small amount of tweets. Here is a good research paper on this topic - [25 Tweets to Know You: A New Model to Predict Personality with Social Media](https://arxiv.org/abs/1704.05513) 
+- There are some unofficial Celebrity accounts (ex - [twitter.com/sonunigam](https://twitter.com/sonunigam)) with a very small amount of tweets. Here is a good research paper on this topic - [25 Tweets to Know You: A New Model to Predict Personality with Social Media](https://arxiv.org/abs/1704.05513) 
 
 ### Generated Embeddings of Celebrity Tweets
 

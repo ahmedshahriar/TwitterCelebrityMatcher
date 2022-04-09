@@ -38,7 +38,7 @@ class TwitterUserMatcher:
             elif len(args) == 1:
                 if args[0].lower() in self.embed_data.username.str.lower().values:
                     random_users_df = pd.concat(
-                        [self.embed_data[self.embed_data.username.lower() == args[0].lower()],
+                        [self.embed_data[self.embed_data.username.str.lower() == args[0].lower()],
                          self.embed_data.sample(random_state=random_state)])
                 else:
                     random_users_df = pd.concat(
