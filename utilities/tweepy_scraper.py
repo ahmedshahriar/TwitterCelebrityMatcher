@@ -32,7 +32,8 @@ handler_df = pd.read_csv("../celebrity-listing/Top-1000-Celebrity-Twitter-Accoun
 # screen_names = handler_df.twitter.unique().tolist()
 
 screen_names_all = handler_df.twitter.unique().tolist()
-screen_names_parsed = [x.split('\\')[1].replace('.csv', '').strip() for x in glob.glob("../twitter-data/*.csv")]
+screen_names_parsed = [x.split('\\')[1].replace('.csv', '').strip() for x in glob.glob(
+    "../twitter-celebrity-tweets-data/*.csv")]
 # missing Twitter accounts to be parsed
 screen_names = list(set(screen_names_all) - set(screen_names_parsed))
 i = 0
@@ -64,7 +65,7 @@ def parser():
         out_tweets = [[tweet.id_str, tweet.created_at, tweet.full_text.encode("utf-8")] for tweet in alltweets]
         df = pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
         # dump tweets under dataset directory
-        df.to_csv("../twitter-data/%s.csv" % name, index=False)
+        df.to_csv("../twitter-celebrity-tweets-data/%s.csv" % name, index=False)
         i = i + 1
         print(i)
     except Exception as e:

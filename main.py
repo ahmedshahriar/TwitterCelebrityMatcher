@@ -5,7 +5,7 @@ import time
 import pandas as pd
 import uvicorn
 
-from api.api import app # import fastAPI app
+from api.api import app  # import fastAPI app
 from app.app import App
 from config import (DATA_PATH, CONSUMER_KEY, ACCESS_SECRET, CONSUMER_SECRET, ACCESS_KEY,
                     EMBED_DATA_PATH, MODEL_PATH, TWITTER_USER_LIST_PATH, TWITTER_USER_LIST_FILE)
@@ -22,10 +22,12 @@ def fetch_users() -> list:
     return screen_names
 
 
-def tweepy_scraper(twitter_scraper: TwitterScraper, screen_names: list) -> None:
+def twitter_scraper_users(twitter_scraper: TwitterScraper, screen_names: list) -> None:
+    # create a directory for the scraped data if not exists
     if not os.path.exists(os.path.join(os.getcwd(), DATA_PATH)):
         os.mkdir(os.path.join(os.getcwd(), DATA_PATH))
 
+    # scrape the data from the Twitter username list
     for c, screen_name in enumerate(screen_names, 1):
         twitter_scraper.save_tweets(screen_name)
         logging.info(f"#{c} {screen_name} tweets scraped")
@@ -34,6 +36,7 @@ def tweepy_scraper(twitter_scraper: TwitterScraper, screen_names: list) -> None:
 
 def data_preparation() -> None:
     twitter_data_prep = TwitterDataPrep(model_path=MODEL_PATH, data_path=DATA_PATH, embed_data_path=EMBED_DATA_PATH)
+    # preprocess the tweets, generate embeddings and save them
     twitter_data_prep.load_data()
 
 
@@ -62,9 +65,9 @@ def main() -> None:
     screen_names = fetch_users()
 
     # scrape tweets using tweepy
-    tweepy_scraper(twitter_scraper, screen_names)
+    twitter_scraper_users(twitter_scraper, screen_names)
 
-    # generate vector embeddings
+    # save a single file containing all the generated vector embeddings per user
     data_preparation()
 
     # Twitter profile matcher
@@ -73,13 +76,24 @@ def main() -> None:
     # Get the Twitter account names dictionary
     usernames_dict = username_dict()
 
+    """scraper functionalities"""
+    # verify Twitter API credentials
+    twitter_scraper.verify_tweepy_api()
+
+    # check a Twitter username
+    twitter_scraper.check_user(screen_name='BarackObama')
+
+    # fetch Twitter display name by Twitter handle
+    twitter_scraper.fetch_profile_name(screen_name='kingjames')  # with or without `@` prefix
+
     """match users from celebrity dataset"""
     # match two random users
+    # random_state=43 returns `Schwarzenegger` xD
     usernames, similarity_score = matcher.match_twitter_user(random_state=43)
 
     # match one user by username with another random user
-    # random_state=43 returns `Schwarzenegger` xD
-    usernames, similarity_score = matcher.match_twitter_user('Schwarzenegger', random_state=43)
+    # random_state=44 returns `EvaLongoria`
+    usernames, similarity_score = matcher.match_twitter_user('Schwarzenegger', random_state=44)
 
     # match two users by their twitter handlers
     usernames, similarity_score = matcher.match_twitter_user('Schwarzenegger', 'RobertDowneyJr', random_state=43)

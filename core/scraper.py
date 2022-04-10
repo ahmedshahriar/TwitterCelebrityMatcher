@@ -79,7 +79,7 @@ class TwitterScraper:
 
     def scrape_tweets(self, screen_name: str) -> Optional[pd.DataFrame]:
         """
-        Scrape the tweets from a Twitter user
+        Scrape the tweets of a Twitter user
         :param screen_name:
         :return: DataFrame of the tweets
         """

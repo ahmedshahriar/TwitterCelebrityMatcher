@@ -81,7 +81,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 models
 *.zip
-twitter-data
+twitter-celebrity-tweets-data
 *.ipynb
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,python,pycharm
