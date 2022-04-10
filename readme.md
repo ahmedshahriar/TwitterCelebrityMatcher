@@ -13,7 +13,6 @@ This app finds similar Twitter users based on their tweets. It works in two ways
 
 ## Setup 🔧
 
-
 Add the following to your `.env` file to work with tweepy:
 ```
 ACCESS_KEY=YOUR_ACCESS_KEY
@@ -134,7 +133,13 @@ Open Source GitHub Gist -
 
 NB: 
 - There are some duplicates in the dataset. (986 after filtering)
-- There are some unofficial Celebrity accounts (ex - [twitter.com/sonunigam](https://twitter.com/sonunigam)) with a very small amount of tweets. Here is a good research paper on this topic - [25 Tweets to Know You: A New Model to Predict Personality with Social Media](https://arxiv.org/abs/1704.05513) 
+- There are some unofficial Celebrity accounts (ex - [twitter.com/sonunigam](https://twitter.com/sonunigam)) with a very small amount of tweets. We can filter those users based on their tweet count. Here is a good research paper on this topic - [25 Tweets to Know You: A New Model to Predict Personality with Social Media](https://arxiv.org/abs/1704.05513) 
+
+I uploaded the relevant datasets on kaggle. Feel free to use the datasets -
+
+1. [Top 1000 Twitter Celebrity Accounts - Kaggle](https://www.kaggle.com/datasets/ahmedshahriarsakib/top-1000-twitter-celebrity-accounts)
+2. [Top 1000 Twitter Celebrity Tweets And Embeddings - Kaggle](https://www.kaggle.com/datasets/ahmedshahriarsakib/top-1000-twitter-celebrity-tweets-embeddings)
+3. [Emoticon Dictionary - Kaggle](https://www.kaggle.com/datasets/ahmedshahriarsakib/emoticon-dictionary)
 
 ### Generated Embeddings of Celebrity Tweets
 
@@ -142,6 +147,9 @@ The final embeddings of all celebrity tweets  -
 - [Twitter Celebrity Embed Data](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/twitter-celebrity-embed-data/twitter-celebrity-embed-data.csv)
 
 ### Data Preprocessing
+
+The tweets were collected and saved as **bytestring** to preserve the text encoding (some tweets may contain complicated symbol/emojis etc.). So first the tweets are decoded as string and then some preprocessing techniques are applied.
+
 Current pipeline : 
  - Removed hashtags, urls, and mentions 
  - Replaced emoticons with their textual representation ([`ekphrasis`](https://github.com/cbaziotis/ekphrasis))
