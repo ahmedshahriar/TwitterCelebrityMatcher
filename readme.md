@@ -147,6 +147,9 @@ The final embeddings of all celebrity tweets  -
 - [Twitter Celebrity Embed Data](https://github.com/ahmedshahriar/TwitterCelebrityMatcher/blob/main/twitter-celebrity-embed-data/twitter-celebrity-embed-data.csv)
 
 ### Data Preprocessing
+
+The tweets were collected and saved as **bytestring** to preserve the text encoding (some tweets may contain complicated symbol/emojis etc.). So first the tweets are decoded as string and then some preprocessing techniques are applied.
+
 Current pipeline : 
  - Removed hashtags, urls, and mentions 
  - Replaced emoticons with their textual representation ([`ekphrasis`](https://github.com/cbaziotis/ekphrasis))
