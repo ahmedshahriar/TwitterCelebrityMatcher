@@ -230,8 +230,21 @@ class AppHome:
         #### Overview 
         This app finds similar Twitter users based on their tweets. It works in two ways 
         1. Get a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (917\
-         Twitter celebrity accounts). 
+        Twitter celebrity accounts). 
         2. Find similarity between two Twitter users based on their tweets. 
+        
+        Source -
+        - GitHub Project Link: [ahmedshahriar/TwitterCelebrityMatcher](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
+        - Kaggle Notebook Link: [Twitter Celebrity Matcher (SBERT+ Tweepy)](https://www.kaggle.com/code/ahmedshahriarsakib/twitter-celebrity-matcher-sbert-tweepy)
+        """)
+
+        with st.expander("Check out the Datasets"):
+            st.markdown("""
+        Feel free to use the datasets -
+
+        1. [Top 1000 Twitter Celebrity Accounts - Kaggle](https://www.kaggle.com/datasets/ahmedshahriarsakib/top-1000-twitter-celebrity-accounts)
+        2. [Top 1000 Twitter Celebrity Tweets And Embeddings - Kaggle](https://www.kaggle.com/datasets/ahmedshahriarsakib/top-1000-twitter-celebrity-tweets-embeddings)
+        3. [Emoticon Dictionary - Kaggle](https://www.kaggle.com/datasets/ahmedshahriarsakib/emoticon-dictionary)
         """)
 
         with st.expander("Click to see how this app works"):
