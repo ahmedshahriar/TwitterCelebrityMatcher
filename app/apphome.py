@@ -201,22 +201,33 @@ class AppHome:
                 # 20.096-14.733 42.54-25.06 66.704-30.696 5.485-1.277 8.894-6.761 7.615-12.247z"/></svg>',
                 # unsafe_allow_html=True)
 
-                tweet_share_msg = f"""
-                Share the result on - <a href="https://twitter.com/intent/tweet?hashtags=streamlit%2Cpython
+                social_share_msg = f"""
+                Share the result on - <span><a href="https://twitter.com/intent/tweet?hashtags=streamlit%2Cpython
                 &amp;text=The%20similarity%20score%20between%20@{celeb_usernames[0]}%20and%20@{celeb_usernames[1]}%20
-                is%20{similarity_score*100:.3f}%25%21%20Check%20this%20app%20to%20compare%20twitter%20users%0A&amp;url=https%3A%2F%2Fshare
-                .streamlit.io%2Fahmedshahriar%2Ftwittercelebritymatcher%2Fmain%2Fmain.py" target="_blank" 
-                rel="noopener noreferrer"><svg width="36" height="36" viewBox="0 0 48 48" fill="none" 
+                is%20{similarity_score*100:.3f}%25%21%20Check%20this%20app%20to%20compare%20twitter%20users%0A&amp
+                ;url=https%3A%2F%2Fshare .streamlit.io%2Fahmedshahriar%2Ftwittercelebritymatcher%2Fmain%2Fmain.py" 
+                target="_blank" rel="noopener noreferrer"><svg width="36" height="36" viewBox="0 0 48 48" fill="none" 
                 xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="24" fill="#56CCF2"></circle><path 
                 d="M35 15.0003C34.0424 15.6758 32.9821 16.1924 31.86 16.5303C31.2577 15.8378 30.4573 15.347 29.567 
                 15.1242C28.6767 14.9015 27.7395 14.9575 26.8821 15.2847C26.0247 15.612 25.2884 16.1947 24.773 
                 16.954C24.2575 17.7133 23.9877 18.6126 24 19.5303V20.5303C22.2426 20.5759 20.5013 20.1861 18.931 
                 19.3957C17.3607 18.6054 16.0103 17.4389 15 16.0003C15 16.0003 11 25.0003 20 29.0003C17.9405 30.3983 
                 15.4872 31.0992 13 31.0003C22 36.0003 33 31.0003 33 19.5003C32.9991 19.2217 32.9723 18.9439 32.92 
-                18.6703C33.9406 17.6638 34.6608 16.393 35 15.0003Z" fill="white"></path></svg></a> 
-                """
+                18.6703C33.9406 17.6638 34.6608 16.393 35 15.0003Z" fill="white"></path></svg></a>   <a 
+                href="https://www.linkedin.com/sharing/share-offsite/?summary=https%3A%2F%2Fshare.streamlit.io
+                %2Fahmedshahriar%2Ftwittercelebritymatcher%2Fmain%2Fmain.py%20%23streamlit%20%23python&amp;title
+                =Check%20out%20this%20awesome%20Streamlit%20app%20I%20built%0A&amp;url=https%3A%2F%2Fshare.streamlit
+                .io%2Fahmedshahriar%2Ftwittercelebritymatcher%2Fmain%2Fmain.py" target="_blank" rel="noopener 
+                noreferrer"><svg width="36" height="36" viewBox="0 0 48 48" fill="none" 
+                xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="24" fill="#1C83E1"></circle><path 
+                d="M28 20C29.5913 20 31.1174 20.6321 32.2426 21.7574C33.3679 22.8826 34 24.4087 34 26V33H30V26C30 
+                25.4696 29.7893 24.9609 29.4142 24.5858C29.0391 24.2107 28.5304 24 28 24C27.4696 24 26.9609 24.2107 
+                26.5858 24.5858C26.2107 24.9609 26 25.4696 26 26V33H22V26C22 24.4087 22.6321 22.8826 23.7574 
+                21.7574C24.8826 20.6321 26.4087 20 28 20Z" fill="white"></path><path d="M18 21H14V33H18V21Z" 
+                fill="white"></path><path d="M16 18C17.1046 18 18 17.1046 18 16C18 14.8954 17.1046 14 16 14C14.8954 
+                14 14 14.8954 14 16C14 17.1046 14.8954 18 16 18Z" fill="white"></path></svg></a></span> """
 
-                st.markdown(tweet_share_msg, unsafe_allow_html=True)
+                st.markdown(social_share_msg, unsafe_allow_html=True)
 
     def match_two_users(self) -> None:
         """
