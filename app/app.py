@@ -17,7 +17,7 @@ from app.appinit import AppInit
 class App:
     title = "Twitter Celebrity Matcher"
     description = """
-    This app is a tool to match celebrities from Twitter with their respective tweets.
+    This app is a tool to match Twitter users with their respective tweets.
     
     Made by: [Ahmed Shahriar Sakib](https://www.linkedin.com/in/ahmedshahriar).
     Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
