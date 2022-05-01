@@ -124,6 +124,7 @@ def main() -> None:
     """scraper functionalities"""
     # scrape all the celebrity tweets
     scrape_celebrity_tweets(twitter_scraper=twitter_scraper)
+    # twitter_scraper.scrape_tweets(screen_name='elonmusk')
 
     # twitter scraper functionalities
     # scraper_in_action(twitter_scraper)

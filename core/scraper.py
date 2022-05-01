@@ -121,8 +121,8 @@ class TwitterScraper:
             # Create a dataframe from the list of tweets
             df = pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
         except Exception as e:
-            logging.error(e, exc_info=True)
-            return e
+            logging.error(e)
+            # return e
         else:
             return df
 
@@ -134,5 +134,7 @@ class TwitterScraper:
         """
         df = self.scrape_tweets(screen_name)
         # Save the dataframe to a csv file
-        if df:
+        try:
             df.to_csv(os.path.join(self.file_path, "%s.csv" % screen_name), index=False)
+        except Exception as e:
+            logging.error(e)

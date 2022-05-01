@@ -70,13 +70,20 @@ class TwitterDataPrep:
         """
         pat1 = r'@[^ ]+'  # remove username @
         pat2 = r'https?://[A-Za-z0-9./]+'  # remove urls
-        pat3 = r'\'s'  # remove apostrophe todo: check if it is necessary for the model
+        # pat3 = r'\'s'  # remove apostrophe
         pat4 = r'\#\w+'  # remove hashtag
         pat5 = r'&amp '  # remove unicode `&`
         # pat6 = r"[\n\t]*" # r'[^A-Za-z\s]'
         pat7 = r'RT'  # remove RT / retweet
         pat8 = r'www\S+'  # remove link www
-        combined_pat = r'|'.join((pat1, pat2, pat3, pat4, pat5, pat7, pat8))  # combine all patterns
+        combined_pat = r'|'.join((pat1,
+                                  pat2,
+                                  # pat3,
+                                  pat4,
+                                  pat5,
+                                  # pat6,
+                                  pat7,
+                                  pat8))  # combine all patterns
         text = re.sub(combined_pat, "", text)  # .lower()
         text = re.sub(r'\s+', ' ', text)  # remove extra spaces
         return text.strip()
