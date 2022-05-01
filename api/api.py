@@ -25,12 +25,12 @@ class Prediction(BaseModel):
 
 class TwitterMatcherModel:
     """ TwitterMatcherModel: class for the model """
-    matcher: Optional[TwitterUserMatcher] = None  # matcher object
+    matcher: Optional[TwitterUserMatcher] = None  # twitter_user_matcher object
     usernames_dict = username_dict()  # Get the Twitter account names dictionary
     top_n: int = 100  # Top n results
 
     def load_model(self):
-        """Twitter profile matcher"""
+        """Twitter profile twitter_user_matcher"""
         self.matcher = TwitterUserMatcher(EMBED_DATA_PATH)
 
     async def predict(self, input_username: TwitterUsername) -> Prediction:  # dependency

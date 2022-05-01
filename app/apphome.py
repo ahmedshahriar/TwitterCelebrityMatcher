@@ -47,7 +47,7 @@ class AppHome:
     @property
     def twitter_user_matcher(self) -> TwitterUserMatcher:
         """
-        Initialize the Twitter user matcher object
+        Initialize the Twitter user twitter_user_matcher object
         :return:
         """
         return self.app.init.init_twitter_user_matcher()
