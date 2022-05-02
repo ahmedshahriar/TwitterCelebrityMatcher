@@ -80,6 +80,10 @@ TwitterCelebrityMatcher
 ├── app
 │   ├── __init__.py
 │   ├── app.py
+|   ├── appdata.py
+│   ├── apphome.py
+│   ├── appinit.py
+│   ├── utils.py
 ├── celebrity-listing
 │   ├── Top-1000-Celebrity-Twitter-Accounts.csv
 ├── core
@@ -97,11 +101,17 @@ TwitterCelebrityMatcher
     main.py    
 ```
 - **api** - fastApi script
-- **app** - streamlit app script
+- **app** - streamlit app scripts
+  - **app.py** - main app script
+  - **appdata.py** - dataclass contains configuration variables
+  - **apphome.py** - core functionalities
+  - **appinit.py** - helper script to initialize the core objects (`scraper` and `matcher`)
+  - **utils.py** - utility functions (e.g. social sharing html script)
 - **core** - contains 3 helper scripts
   - **dataprep.py** - scripts for all preprocessing tasks ( tweet cleaning, embedding generation etc.)
   - **matcher.py** - core functionalities to match twitter users
   - **matcher.py** - twitter scraper helper script
+  - **utils.py** - utility functions
 - **config.py** - all configuration variables
 - **main.py** - run 3 apps - console scripts, streamlit app or API
 
