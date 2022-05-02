@@ -177,7 +177,7 @@ class TwitterDataPrep:
 
     def load_data(self) -> None:
         """
-        Dump the generated embeddings to a csv file.
+        Export the generated embeddings to a csv file.
         :return:
         """
         df_embeddings = pd.DataFrame()
@@ -218,7 +218,7 @@ class TwitterDataPrep:
         # create embedding directory if not exist
         if not os.path.exists(os.path.join(os.getcwd(), self.embed_data_path)):
             os.mkdir(os.path.join(os.getcwd(), self.embed_data_path))
-        # dump the data to a csv file
+        # export the data to a csv file
         df_embeddings.to_csv(os.path.join(os.getcwd(), self.embed_data_path, "%s.csv" % self.embed_data_path),
                              index=False)
         logging.warning(f"Error list: {self.error_list}")

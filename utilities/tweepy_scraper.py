@@ -64,7 +64,7 @@ def parser():
 
         out_tweets = [[tweet.id_str, tweet.created_at, tweet.full_text.encode("utf-8")] for tweet in alltweets]
         df = pd.DataFrame(out_tweets, columns=['twitter_id', 'date', 'tweet'])
-        # dump tweets under dataset directory
+        # export tweets to CSV under dataset directory
         df.to_csv("../twitter-celebrity-tweets-data/%s.csv" % name, index=False)
         i = i + 1
         print(i)

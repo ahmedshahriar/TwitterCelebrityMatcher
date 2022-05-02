@@ -66,6 +66,9 @@ def scraper_in_action(twitter_scraper: TwitterScraper) -> None:
     # fetch Twitter display name by Twitter handle
     twitter_scraper.fetch_profile_name(screen_name='kingjames')  # with or without `@` prefix
 
+    # scrape tweets and export to csv by Twitter handle
+    twitter_scraper.scrape_tweets(screen_name='elonmusk')
+
 
 # data preparation
 def data_preparation(twitter_data_prep: TwitterDataPrep) -> None:
@@ -124,33 +127,33 @@ def main() -> None:
     """scraper functionalities"""
     # scrape all the celebrity tweets
     scrape_celebrity_tweets(twitter_scraper=twitter_scraper)
-    # twitter_scraper.scrape_tweets(screen_name='elonmusk')
 
     # twitter scraper functionalities
-    # scraper_in_action(twitter_scraper)
+    scraper_in_action(twitter_scraper)
 
     """data preparation"""
-    # # create a data preparation object
-    # twitter_data_prep = TwitterDataPrep(model_path=MODEL_PATH, data_path=DATA_PATH, embed_data_path=EMBED_DATA_PATH)
-    #
-    # # save a single file containing all the generated vector embeddings per user
-    # data_preparation(twitter_data_prep=twitter_data_prep)
+    # create a data preparation object
+    twitter_data_prep = TwitterDataPrep(model_path=MODEL_PATH, data_path=DATA_PATH, embed_data_path=EMBED_DATA_PATH)
+
+    # save a single file containing all the generated vector embeddings per user
+    data_preparation(twitter_data_prep=twitter_data_prep)
 
     """twitter user matcher"""
-    # # Twitter profile twitter_user_matcher
-    # matcher = TwitterUserMatcher(EMBED_DATA_PATH)
-    #
-    # # get the Twitter account names dictionary
-    # usernames_dict = username_dict()
-    #
-    # matcher_in_action(matcher, usernames_dict)
+    # create Twitter profile matcher object
+    matcher = TwitterUserMatcher(EMBED_DATA_PATH)
+
+    # get the Twitter account names dictionary
+    usernames_dict = username_dict()
+
+    # twitter matcher functionalities
+    matcher_in_action(matcher, usernames_dict)
 
 
 if __name__ == '__main__':
     # set the configuration
     set_config()
     # run the main function
-    main()
-    # App().render()  # run the streamlit app
+    # main()
+    App().render()  # run the streamlit app
     # run fast API
     # uvicorn.run("__main__:app", host='127.0.0.1', log_level="info", reload=True, debug=True, port=8000)
