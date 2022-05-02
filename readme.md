@@ -8,6 +8,10 @@ This app finds similar Twitter users based on their tweets. It works in two ways
  Twitter celebrity accounts). 
 2. Find similarities between two Twitter users based on their tweets. 
 
+View this project on kaggle - [kaggle.com/code/ahmedshahriarsakib/twitter-celebrity-matcher-sbert-tweepy](https://www.kaggle.com/code/ahmedshahriarsakib/twitter-celebrity-matcher-sbert-tweepy)
+
+---
+
 :computer: [**Streamlit App**](#streamlit-app) | :ballot_box_with_check: [**How it works?**](#how-it-works) | :hammer_and_wrench: [**Project Structure**](#project-structure) | :floppy_disk: [**Dataset**](#dataset) |:camera: [**Screenshots**](#screenshots) | 🔎 [**Findings**](#findings) | :arrow_down: [**Built With**](#built-with)
 --- | --- | --- | --- |--- | --- | ---|
 
