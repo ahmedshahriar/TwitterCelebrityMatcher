@@ -3,7 +3,7 @@ ekphrasis==0.5.1
 python-dotenv==0.20.0
 schedule==1.1.0
 sentence-transformers==2.2.0
-streamlit==1.8.1
+streamlit==1.11.1
 tweepy==4.8.0
 pandas~=1.4.1
 numpy~=1.22.3
