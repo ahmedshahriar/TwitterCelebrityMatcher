@@ -1,5 +1,5 @@
 demoji==1.1.0
-ekphrasis==0.5.1
+ekphrasis==0.5.4
 python-dotenv==0.20.0
 schedule==1.1.0
 sentence-transformers==2.2.2
