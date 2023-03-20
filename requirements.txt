@@ -10,5 +10,5 @@ numpy~=1.22.3
 pytest==7.1.1
 mypy==0.942
 fastapi~=0.75.0
-pydantic~=1.9.0
+pydantic~=1.10.6
 uvicorn~=0.21.1
