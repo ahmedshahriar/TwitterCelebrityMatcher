@@ -9,6 +9,6 @@ pandas~=1.4.1
 numpy~=1.22.3
 pytest==7.1.1
 mypy==1.1.1
-fastapi~=0.75.0
+fastapi~=0.96.0
 pydantic~=1.10.6
 uvicorn~=0.21.1
