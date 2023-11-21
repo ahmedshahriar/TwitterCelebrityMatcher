@@ -8,6 +8,7 @@ Author: [Ahmed Shahriar Sakib](https://www.linkedin.com/in/ahmedshahriar)
 Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
 """
 
+import os
 import logging
 import random
 
@@ -74,8 +75,11 @@ class AppHome:
         :return:
         """
         # helpful link - https://github.com/streamlit/streamlit/issues/3601
-        st.selectbox("Select a celebrity (twitter username) :", self.usernames_dict.keys(),
-                     key='selected_username', on_change=self.capture_change_value)
+        st.selectbox(label="Select a celebrity (twitter username) :", 
+                    options=self.usernames_dict.keys(),
+                    format_func=lambda x: self.usernames_dict.get(x) + f" ({x})",
+                    key='selected_username', 
+                    on_change=self.capture_change_value)
 
     def render_suggested_users(self) -> None:
         """
@@ -116,9 +120,15 @@ class AppHome:
         else:
             # check for username
             with st.spinner("Searching for " + username):
-                is_exists = self.twitter_scraper.check_user(username)
+                # check if the username exists from twitter
+                # use this for twitter API v2
+                # is_exists = self.twitter_scraper.check_user_twiiter(username)
+
+                # check if the username exists from local data
+                is_exists = True if username.lower() in [user_name.lower() for user_name in self.usernames_dict.keys()] else False
             if not is_exists:
-                return st.error("This twitter user does not exist or some error occurred!")
+                # return st.error("This twitter user does not exist or some error occurred!")
+                return st.error("This twitter user does not exist in the list or some error occurred!")
 
         # get the top n results
         with st.spinner("**Twitter User Found**! searching for matches..."):
@@ -158,10 +168,13 @@ class AppHome:
         :return:
         """
         st.markdown("#### Match Two Celebrities From The Celebrity Account List")
-        celeb_usernames = st.multiselect("Select Two Celebrity (twitter username) :",
-                                         self.usernames_dict.keys(),
-                                         key='celeb_usernames',
-                                         help='Click the box and start typing celebrity Twitter username')
+        celeb_usernames = st.multiselect(label="Select Two Celebrity (twitter username) :",
+                                        options=self.usernames_dict.keys(),
+                                        format_func=lambda x: self.usernames_dict.get(x) + f" ({x})",
+                                        key='celeb_usernames',
+                                        help='Click the box and start typing celebrity Twitter username',
+                                        # max_selections=2
+                                        )
         if len(celeb_usernames) != 2:
             return st.warning("Please select two celebrities!")
         else:
@@ -192,24 +205,25 @@ class AppHome:
         Match two Twitter users
         :return:
         """
-        st.markdown("#### Match Two Twitter Users")
+        st.markdown("#### Match Two Twitter Users Live")
+        st.markdown("**NB: This feature is not available for the free version of Twitter V2 API (Require Basic version and beyond)**")
         with st.expander("Behind the scene"):
             st.markdown(
                 """
-            If the username is not in the list then the scraper scrapes user's latest ~3200 tweets. (~14sec max) 
-            And, it takes 7-8 seconds to preprocess the tweets. Also, if not GPU it might take a long time 
-            (for ~3200 tweets - 1min+) to generate the vector embeddings. 
-            That's why it takes a while to get the results.
+            If the username is not in the list then the API scrapes user's latest tweets.
+            The prepocessing and embedding generation takes a while if GPU acceleration is not enabled. 
+            The similarity score is calculated using cosine similarity between the mean embedding of the tweets.
             """)
-        user1 = st.text_input('Select Twitter User1', 'BarackObama').strip()
-        user2 = st.text_input('Select Twitter User2', 'BorisJohnson').strip()
+        user1 = st.text_input('Select Twitter User1', 'JohnCena').strip()
+        # user2 = st.text_input('Select Twitter User2', 'BorisJohnson').strip()
+        user2 = st.text_input('Select Twitter User2', 'RobertDowneyJr').strip()
 
         if len(user1) == 0 or len(user2) == 0:
             return st.warning("Usernames can not be empty!")
         if user1 == user2:
             return st.warning("Please select two different users!")
 
-        if st.button('Check Similarity'):
+        if st.button('Check Similarity', disabled=True):
             if len(user1) > 0 and len(user2) > 0:
                 # get the similarity score
                 with st.spinner("Calculating the similarity score... Please wait...This might take a while..."):
@@ -239,7 +253,7 @@ class AppHome:
         st.markdown("""
         #### Overview 
         This app finds similar Twitter users based on their tweets. It works in two ways -
-        1. Generate a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (917\
+        1. Generate a list of most similar celebrity twitter accounts based on a predefined Twitter celebrity list (915\
         Twitter celebrity accounts). 
         2. Find similarity between two Twitter users based on their tweets. 
         
@@ -262,9 +276,9 @@ class AppHome:
                 """
             #### Functionalities
             - Enter a Twitter username (from the list) to see the most similar celebrities based on tweets. 
-            The celebrities list was collected from the GitHub Gist - 
+            The celebrity list was collected from the GitHub Gist - 
             [Top-1000-Celebrity-Twitter-Accounts.csv](https://gist.github.com/mbejda/9c3353780270e7298763). 
-            - You can also enter two Twitter usernames to see the similarity score between them.
+            - You can also enter two Twitter usernames (excluding list) to see the similarity score between them. (Works only for the Premium version of Twitter API)
 
             #### How it works?
             The celebrity tweets were collected using [tweepy](https://tweepy.readthedocs.io). 
@@ -276,7 +290,7 @@ class AppHome:
 
             This app - 
             1. Takes a Twitter username
-            2. Scrapes the tweets if it's unavailable
+            2. Scrapes the tweets if the user is not in the celebrity list (only works in paid version of Twitter API)
             3. Generate embeddings of the given Twitter account's tweets
             5. Calculate the mean embedding of the tweets (limitation **~3200** tweets)
             4. Finds the **cosine similarity** between 
@@ -285,21 +299,50 @@ class AppHome:
             5. Returns the most similar celebrity twitter accounts based on similarity score or just score between two users 
 
             #### Performance
-            - With CUDA enabled GPU the app runs ~5x faster than CPU.
-
-            For ~3200 tweets in my rig (AMD 2600x, 1050ti, 768 CUDA cores)- 
-            - With the current scraping scripts, it takes **~14-16 seconds** to download tweets
-            - With **pandas** it takes **~8 seconds** to preprocess the tweets (AMD 2600x)
-            - It takes **~6 seconds** to generate embeddings from processed tweets (1050ti, 768 CUDA cores)
-            - Took **~2h 5m** in total to preprocess and generate embedding for all users' (917 total) tweets
+            **Test Workstation (RAM 16gb 2400Hz, AMD 2600x, 1050ti (768 CUDA cores))**
+            - The app runs ~5x faster than CPU
+            - Takes **~2h 5m** in total to preprocess and generate embedding for all users' (915 total) tweets
 
             ---
 
-            N.B: With the free version of Twitter API, it limits the user to the last 3200 tweets in a timeline
+            N.B: Fetching timeline tweets for users is no longer supported in free version of the Twitter API.
                 """)
+    
+    # fix - https://github.com/streamlit/streamlit/issues/6109#issuecomment-1523362976
+    @st.cache_data
+    def get_filtered_dataframe(_self) -> pd.DataFrame:
+        """
+        Filter the dataframe
+        :param df:
+        :return:
+        """
+        df = pd.read_csv(os.path.join(os.getcwd(), 
+                                          _self.app.data.twitter_user_list_path, 
+                                          _self.app.data.twitter_user_list_file), 
+                                          header=0,
+                                          usecols=['name', 'twitter_username', 'followers_count', 'tweet_count'])
+        embed_df = pd.read_csv(os.path.join(os.getcwd(), _self.app.data.embed_data_path, 
+                                            f'{_self.app.data.embed_data_path}.csv'),
+                                            usecols=['username'],
+                                            header=0)
+        df = df[df['twitter_username'].isin(embed_df.username.tolist())].copy()
+        return df
+    
+    def render_dataframe(self) -> None:
+        """
+        Render the dataframe
+        :param df:
+        :return:
+        """
+        with st.spinner("Loading the data..."):
+            df = self.get_filtered_dataframe()
+            st.header('Celebrity List')
+            st.write(f'Number of rows : {df.shape[0]}')
+            st.dataframe(df, use_container_width=True)
 
     def render(self) -> None:
         self.render_overview()
+        self.render_dataframe()
         st.subheader("Most Similar Twitter Celebrities")
         self.render_select_random_celebrity()
         self.render_suggested_users()

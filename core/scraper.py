@@ -75,9 +75,9 @@ class TwitterScraper:
             logging.error(e, exc_info=True)
             return None
 
-    def check_user(self, screen_name: str) -> bool:
+    def check_user_twiiter(self, screen_name: str) -> bool:
         """
-        Check if a user exists
+        Check if a user exists from twitter
         :param screen_name:
         :return: True if the user exists
         """

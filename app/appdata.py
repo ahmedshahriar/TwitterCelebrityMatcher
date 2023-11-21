@@ -11,7 +11,7 @@ Source: [Github](https://github.com/ahmedshahriar/TwitterCelebrityMatcher)
 
 from dataclasses import dataclass
 from typing import Optional
-from config import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_KEY, ACCESS_SECRET, EMBED_DATA_PATH
+from config import CONSUMER_KEY, CONSUMER_SECRET, ACCESS_KEY, ACCESS_SECRET, EMBED_DATA_PATH, TWITTER_USER_LIST_FILE, TWITTER_USER_LIST_PATH
 from core.utils import username_dict
 
 
@@ -22,5 +22,7 @@ class AppData:
     consumer_secret: Optional[str] = CONSUMER_SECRET
     access_key: Optional[str] = ACCESS_KEY
     access_secret: Optional[str] = ACCESS_SECRET
+    twitter_user_list_file: str = TWITTER_USER_LIST_FILE
+    twitter_user_list_path: str = TWITTER_USER_LIST_PATH
     embed_data_path: str = EMBED_DATA_PATH
     usernames_dict = username_dict()

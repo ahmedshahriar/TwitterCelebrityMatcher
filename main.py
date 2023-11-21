@@ -47,7 +47,7 @@ def twitter_scraper_users(twitter_scraper: TwitterScraper, screen_names: list) -
 
 def scrape_celebrity_tweets(twitter_scraper: TwitterScraper) -> None:
     # check the Twitter user
-    twitter_scraper.check_user(screen_name='BarackObama')  # check an invalid user by Twitter handle
+    twitter_scraper.check_user_twiiter(screen_name='BarackObama')  # check an invalid user by Twitter handle
 
     # fetch Twitter usernames
     screen_names = fetch_users()
@@ -61,7 +61,7 @@ def scraper_in_action(twitter_scraper: TwitterScraper) -> None:
     twitter_scraper.verify_tweepy_api()
 
     # check a Twitter username
-    twitter_scraper.check_user(screen_name='BarackObama')
+    twitter_scraper.check_user_twiiter(screen_name='BarackObama')
 
     # fetch Twitter display name by Twitter handle
     twitter_scraper.fetch_profile_name(screen_name='kingjames')  # with or without `@` prefix

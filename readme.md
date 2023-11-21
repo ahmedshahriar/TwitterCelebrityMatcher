@@ -4,7 +4,7 @@
 The objective of this project is to match celebrity users with their respective tweets by making use of Semantic Textual Similarity.
 
 This app finds similar Twitter users based on their tweets. It works in two ways -
-1. Get a list of the most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (917\
+1. Get a list of the most similar celebrity Twitter accounts based on a predefined Twitter celebrity list (915\
  Twitter celebrity accounts). 
 2. Find similarities between two Twitter users based on their tweets. 
 
@@ -250,7 +250,7 @@ Download SBERT pretrained models directly from [here](https://public.ukp.informa
  
 ### Author
 
-- The number of **authors** in this celebrity list is comparatively lower than other dominating professions (actors, singers, footballers etc.). So in this example the first few results (first two from the results -> both are above `0.94` score )  were good but then the score drops. The **drop rate** is higher that the results from the dominating celebrity professions where the top score is around `0.96+` and first 10 or 20 from the list have very close score. This will vary but with only 917 users the performance of the pretrained model is great in this case
+- The number of **authors** in this celebrity list is comparatively lower than other dominating professions (actors, singers, footballers etc.). So in this example the first few results (first two from the results -> both are above `0.94` score )  were good but then the score drops. The **drop rate** is higher that the results from the dominating celebrity professions where the top score is around `0.96+` and first 10 or 20 from the list have very close score. This will vary but with only 5 users the performance of the pretrained model is great in this case
   
  <details>
  <summary> Click to view similar celebrity authors - (query - <code>John Green</code>)  </summary>
@@ -282,13 +282,12 @@ NB: Due to space limitation, the screenshots above displays only top 10 results,
 </div>
 
 ## FYI
+
+**Test Workstation (RAM 16gb 2400Hz, AMD 2600x, 1050ti (768 CUDA cores))**
+
 - With CUDA enabled GPU the app runs ~5x faster than CPU.
-                
-For ~3200 tweets in my rig (AMD 2600x, 1050ti, 768 CUDA cores) - 
-  - With the current scraping scripts, it takes ~14-16 seconds to download tweets
-  - With `pandas` it takes ~8 seconds to **preprocess** the tweets
-  - It takes ~6 seconds to **generate embeddings** from processed tweets
-  - Takes **~2h 5m** in total to preprocess and generate embedding for all users' (917 total) tweets
+- With the current scraping scripts, it takes ~14-16 seconds to download tweets
+- Takes **~2h 5m** in total to preprocess and generate embedding for all users' (915 total) tweets
 
 ## Built With
 ```
